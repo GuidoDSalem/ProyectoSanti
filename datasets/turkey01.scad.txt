@@ -1,0 +1,56 @@
+// Turkey 
+// 2019-11-29
+// version01 - sharper bottom tail angle.
+
+// tail feather
+module feather(){
+hull(){
+cylinder(2,3,3);
+translate([0,30,0])
+cylinder(1,6,6);
+}}
+
+
+// body
+difference(){
+    translate([0,0,10])
+sphere(20);
+translate([-40,-40,-10])
+    cube([80,80,10]);
+    // hollow it
+    translate([0,0,-6])
+    sphere(17);
+}
+// tail
+translate([0,18,5])
+for(k=[-72:20:72]){
+rotate([80,k,0])
+feather();
+}
+
+// neck/head
+translate([0,-15,20])
+rotate([30,0,0])
+scale([.6,1,1.3])
+sphere(10);
+
+// eyes
+translate([0,-21,25])
+scale([1.2,.6,.6])
+sphere(6);
+
+// beak
+hull(){
+translate([0,-27,22])
+sphere(1);
+    translate([0,-23.5,26])
+    sphere(2);
+}
+// beak support
+hull(){
+translate([0,-23.5,20])
+sphere(.5);
+translate([0,-27,22])
+sphere(1);
+    }
+    

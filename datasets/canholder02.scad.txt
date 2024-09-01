@@ -1,0 +1,53 @@
+// Can holder
+
+// GPL Statement
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version02 - 2019-01-08 - add gripper polygon
+
+// hook over sofa arm
+difference(){
+cylinder(30,3,3);
+    translate([2,2,-.1])
+    cylinder(31,2.5,2.5);
+}
+translate([0,-3,0])
+cube([80,3,30]);
+
+difference(){
+    translate([0,60,0])
+cylinder(30,3,3);
+    translate([2,58,-.1])
+    cylinder(31,2.5,2.5);
+}
+translate([0,60,0])
+cube([30,3,30]);
+translate([-3,0,0])
+cube([3,60,30]);
+
+// support L
+translate([77,-30,0])
+cube([3,30,30]);
+
+// can loop
+difference(){
+    translate([0,-42,0])
+    cylinder(20,37,37);
+    translate([0,-42,-.1])
+    cylinder(21,35,35);
+}
+// attachment plate
+
+module back(){
+linear_extrude(20)
+// polygon (points=
+polygon(points=[[0,0],[34,0],[34,8],[30.5,6],[32.2,6],[32.2,2],[2,2],[2,6],[3.5,6],[0,8]],paths=[[0,1,2,3,4,5,6,7,8,9,0]], convexity=10);
+}
+translate([-35,-25.5,0])
+rotate([0,0,40])
+back();

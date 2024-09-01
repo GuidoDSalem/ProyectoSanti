@@ -1,0 +1,117 @@
+// Steam Engine - Passenger Car
+// version00 - 2018-01-13
+// version01 -2018-02-08 - change to variable control.
+// Open Box Design
+// Will simply sit on a flatcar base
+
+// VARIABLES
+$fn=30;
+$vpt=[0,0,0];
+//$vpr=[85,0.0,30.5];
+$vpd=400;
+carwid=60;
+carlen=145;
+carht=50;
+
+// MODULES
+
+// mockup used while planning only
+////////////////////////////////////
+// FLATCAR MOCKUP
+// REMOVE FROM EXECUTION FOR PRINT  
+// /////////////////////////////////
+ module mockup(){
+      module truck(){
+      translate([-carlen/2,-carwid*.25,-carwid*.25])
+      cube([carwid*.5, carwid*.5,carwid*.25]);
+      translate([-carlen/2+5,-carwid*.25,-carwid*.25])
+          rotate([90,0,0])
+          cylinder(2,carwid*.167,carwid*.167);
+        translate([-carlen/2+carwid*.5-5,-carwid*.25,-carwid*.25])
+      rotate([90,0,0])
+      cylinder(2,carwid*.167,carwid*.167);
+
+      translate([-carlen/2+5,carwid*.25,-carwid*.25])
+          rotate([90,0,0])
+          cylinder(2,carwid*.167,carwid*.167);
+        translate([-carlen/2+carwid*.5-5,carwid*.25,-carwid*.25])
+      rotate([90,0,0])
+      cylinder(2,carwid*.167,carwid*.167);
+}
+
+truck();
+translate([carlen-carwid*.5,0,0])
+truck();
+// slab
+translate([-carlen*.5,-carwid*.5,-2])
+cube([carlen,carwid,2]);
+// side support
+hull(){
+    translate([-carlen*.425,-carwid*.25,-4])
+    cube([carlen*.85,carwid*.5,2]);
+    translate([-carlen*.425,-carwid*.15,-carwid*.167])
+    cube([carlen*.85,carwid*.3,2]);
+}
+}
+
+module roof(){
+        translate([carlen*.425,0,carht])
+    rotate([0,-90,0])
+difference(){
+scale([1,3,1])
+cylinder(carlen*.85,carwid*.167,carwid*.167);
+    translate([-3,0,2])
+    scale([1.2,2.6,1])
+    cylinder(carlen*.82,carwid*.167,carwid*.167);
+
+}
+}
+
+module side(){
+    difference(){
+    translate([-carlen*.85/2,-carwid*.5,0])
+    cube([carlen*.85,2,carht]);
+for(k=[-carlen*.38:carlen*.10:carlen*.38]){
+translate([k,-carwid/2-1,carht*.4])
+    cube([carlen*.07,2,20]);
+}
+translate([0,-carwid/2+1,carht*.17])
+rotate([90,0,0])
+linear_extrude(3)
+text("Denver & Rio Grande Western", size=6, halign="center");
+}
+}
+
+
+module carend(){
+    // setup for far car end
+    // near end will just be a rotation
+translate([carlen*.85/2-2,-carwid*.5,0])
+cube([2,carwid,carht]);
+ //far door
+difference(){
+translate([carlen*.85/2,-carwid*.15,0])
+cube([2,carwid*.30,carht*.9]);
+translate([carlen*.85/2-1,-carwid*.05,carht*.5])
+    cube([4,carwid*.1,carht*.33]);
+}
+//knob
+translate([carlen*.85/2+1,carwid*.1,carht*.5])
+sphere(2);
+}
+// EXECUTION SECTION
+
+roof();
+// far end
+carend();
+// near end
+rotate([0,0,180])
+carend();
+// near side
+side();
+// far side
+rotate([0,0,180])
+side();
+// remove mockup for final print
+ mockup();
+

@@ -1,0 +1,49 @@
+// Baggage Tag 
+// Business card Size -  85.60 × 53.98 mm
+
+// attach with zip tie for secure strength
+// optionally laminate for durability
+// print with brim/raft or it will fall over.
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+$fn=30;
+
+
+module case(){
+    hull(){
+    cube([100,4,58]);
+    translate([110,4,29])
+    rotate([90,0,0])
+    cylinder(4,10,10);
+        
+    }
+}
+
+module cuts(){
+    translate([110,5,29])
+    rotate([90,0,0])
+    cylinder(10,3,3);
+    
+    translate([2,1.25,2])
+    cube([150,1.5,54]);
+    
+    translate([8,-1,6])
+    cube([83,2.75,46]);
+}
+difference(){
+ case();
+ cuts();
+}
+// card retainer spheres
+translate([100,.6,29])
+sphere(2);
+translate([100,.6,19])
+sphere(2);
+translate([100,.6,39])
+sphere(2);

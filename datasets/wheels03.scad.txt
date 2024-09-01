@@ -1,0 +1,130 @@
+// Train Engine - wheels
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version01 - drive wheel  with shaft matched with offside wheel
+// version02 - add carriage wheels
+// version03 - double set for final print
+
+$fn=30;
+// drive wheel with shaft
+module wheel(){    
+rotate([0,0,0])
+cylinder(5,20,20);
+translate([0,0,3])
+cylinder(1
+,20,22);
+translate([0,0,4])
+cylinder(1,22,22);
+cylinder(40,2,2);
+}
+// slot
+module slot(){
+hull() {
+    translate([10,10,0])
+    cylinder(5,5,5);
+    translate([5,5,0])
+    cylinder(5,2,2);
+}
+}
+// drive wheel #1
+difference(){
+wheel();
+    for(x=[-15:60:4*60]){
+    rotate([0,0,x])
+    slot();
+translate([12,-8,0])
+        cylinder(3,2.9,3.3);
+    }
+}
+
+// offside wheel #1
+
+translate([45,0,0]){
+    difference(){
+        wheel();
+            for(x=[-15:60:4*60]){
+    rotate([0,0,x])
+    slot();
+translate([12,-8,0])
+        cylinder(3,2.9,3.3);
+cylinder(50,2.15,2.15);
+    }
+}
+}
+// drive wheel #1
+translate([0,80,0])
+difference(){
+wheel();
+    for(x=[-15:60:4*60]){
+    rotate([0,0,x])
+    slot();
+translate([12,-8,0])
+        cylinder(3,2.9,3.3);
+    }
+}
+
+// offside wheel #2
+
+translate([45,80,0]){
+    difference(){
+        wheel();
+            for(x=[-15:60:4*60]){
+    rotate([0,0,x])
+    slot();
+translate([12,-8,0])
+        cylinder(3,2.9,3.3);
+cylinder(50,2.15,2.15);
+    }
+}
+}
+// carriage wheel #1
+translate([-15,40,0])
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+cylinder(42,2,2);}
+
+// offside carriage wheel #1
+difference(){
+translate([12,40,0])
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+}
+translate([12,40,0])
+cylinder(42,2.15,2.15);}
+
+// carriage wheel #2
+
+translate([38,40,0])
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+cylinder(42,2,2);}
+
+// offside carriage wheel #2
+difference(){
+translate([65,40,0])
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+}
+translate([65,40,0])
+cylinder(42,2.15,2.15);}
+

@@ -1,0 +1,29 @@
+// pawn 
+// version 02c 2016-12-23
+// 2016-12-20 Algot Runeman
+// CC-0 Public Domain Dedication
+// attempt at a basic chess set.
+
+cylinder(1,10,10);
+translate([0,0,1])
+cylinder(1, 9.7,9,7);
+translate([0,0,2])
+cylinder(1,9.4,9.4);
+translate([0,0,3])
+difference(){
+sphere(9);
+    translate([0,0,-9])
+    // remove the section of the base sphere below the x axis
+        cylinder(6,9,9);}
+//cylinder(4,8,5);
+translate([0,0,3])
+cylinder(15,4.5,4.5);
+translate([0,0,18])
+cylinder(5,5,9.4);
+                translate ([0,0,23]) // add flat section
+        cylinder(1,9.4,9.4); // to soften the cone connection
+translate([0,0,24]) // move up from 23
+//translate([0,0,23])
+cylinder(5,9.4,5);
+translate([0,0,28])
+sphere(4.5);

@@ -1,0 +1,230 @@
+// Frog
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+//version00 2017-06-20 - start with the feet
+
+//MODULES
+module toe(){
+hull(){
+cylinder(2,3,1.5);
+translate([0,0,2])
+resize(newsize=[5,4,2])
+sphere(2);
+
+translate([4,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+}
+hull(){
+translate([4,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+
+translate([12,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+}
+}
+
+module web(){
+    hull(){
+    translate([0,0,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    //right
+    translate([3,5,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    //left
+    translate([3,-5,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    translate([12,0,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    }
+}
+module foot(){
+translate([-5,0,0])
+toe(); //center
+hull(){
+translate([-2,0,2])
+    sphere(1);
+translate([12,0,1])
+sphere(1);    
+}
+web();
+translate([0,8,0])
+rotate([0,0,-36])
+toe(); //right
+translate([0,-8,0])
+rotate([0,0,36])
+toe(); //left
+}
+
+// rear leg module
+module legr(){
+    // hand
+    hull(){
+    translate([17.5,0,0])
+     sphere(3);
+     translate([-5,0,0])
+        sphere(1);
+    }
+    // shin 
+    hull(){
+    translate([17.5,0,0])
+    sphere(3);
+    translate([5,0,6])
+    sphere(6.8);
+    translate([-10,0,12.5])
+    sphere(3);
+    }
+    // thigh
+    hull(){
+    translate([-10,0,12.5])
+    sphere(3);
+    translate([8,0,10])
+    sphere(4);
+    translate([18,0,7])
+        sphere(4);
+    }
+}
+
+module body(){
+    hull(){
+    translate([65,11,10])
+    scale([1,2.5,1]){sphere(5);}
+    translate([38,11,15])
+    rotate([0,25,0])
+    scale([1,1.9,1.5]){sphere(10);}
+    translate([9,11,24])
+    scale([1,2.5,1]){sphere(4);}
+}
+}
+
+module head(){
+    hull(){
+     // nose
+    translate([-8,11,28])
+    resize(newsize=[8,10,4])
+    sphere(2);
+    translate([10,11,26])
+    resize(newsize=[8,20,4])
+    sphere(2);
+    translate([12,11,20])
+    resize(newsize=[8,20,4])
+    sphere(2);
+    // left cheek
+    translate([13,0,20])
+    resize(newsize=[3,2,4])
+    sphere(2);
+            // right cheek
+    translate([13,23,20])
+    resize(newsize=[3,2,4])
+    sphere(2); 
+    // neck
+    translate([17,11,18])
+    resize(newsize=[3,5,9])
+    sphere(2); 
+    }
+    // left ear
+    translate([6,3,25])
+    rotate([95,0,-20])
+    cylinder(2,2.5,2.5);
+    // right ear
+    translate([6,21.5,24])
+    rotate([98,0,15])
+    cylinder(2,2.5,2.5);
+   // left eye
+    difference(){
+    hull(){
+    translate([0,4,28])
+    rotate([0,0,-22])
+    resize(newsize=[8,4,8])
+    sphere(2);
+    translate([0,10,26])
+    rotate([0,0,-15])
+    resize(newsize=[6,2,6])
+    sphere(2);        
+    }
+        translate([0,2,27.6])     resize(newsize=[5,2,3]) sphere(2);}
+   // right eye
+    difference(){
+    hull(){
+    translate([0,19,28])
+    rotate([0,0,22])
+    resize(newsize=[8,4,8])
+    sphere(2);
+    translate([0,12,26])
+    rotate([0,0,15])
+    resize(newsize=[6,2,6])
+    sphere(2);        
+    }
+    translate([-1,21,27.6])     resize(newsize=[7,2,3]) sphere(2);}
+}
+head();
+// EXECUTE CODE
+
+// feet
+// left front
+translate([0,-5,0])
+foot();
+// right front
+translate([0,25,0])
+foot();
+// right rear
+translate([40,29,0])
+rotate([0,0,-15])
+scale([1.7,1.2,1]){
+foot();}
+// left rear
+translate([40,-7,0])
+rotate([0,0,15])
+scale([1.7,1.2,1]){
+foot();}
+
+// left rear leg
+translate([43,-7,3])
+rotate([0,0,10])
+legr();
+// right rear leg
+translate([43,28,3])
+rotate([0,0,-10])
+legr();
+
+body();
+
+// legf
+//left
+hull(){
+translate([11,-5,0])
+cylinder(2,2,2);
+    translate([15,-10,10])
+    sphere(3);
+}
+    hull(){
+    translate([15,-10,10])
+    sphere(3);
+    translate([18,0,16])
+        sphere(5);
+    }
+//right
+hull(){
+translate([11,25,0])
+cylinder(2,2,2);
+    translate([15,30,10])
+    sphere(3);
+}
+    hull(){
+    translate([15,30,10])
+    sphere(3);
+    translate([18,20,16])
+        sphere(5);
+    }

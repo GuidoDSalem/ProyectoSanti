@@ -1,0 +1,77 @@
+// Rubber Duckie
+// version00 - 2017-12-02 
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+$fn=40;
+
+// head
+hull(){
+    translate([0,0,30])
+    sphere(10);
+    translate([5,0,38])
+    sphere(3);
+}
+// eyes
+translate([-6,3,37])
+sphere(2);
+translate([-6,-3,37])
+sphere(2);
+
+// beak
+hull(){
+translate([-10,0,32])
+rotate([0,40,0])
+cylinder(1,5,4);
+translate([-8,0,36])
+sphere(1);
+}
+hull(){
+translate([-9.5,0,30])
+rotate([0,5,0])
+cylinder(1,4,5);
+translate([-8,0,27])
+sphere(1);
+}
+
+// neck
+translate([0,0,18])
+cylinder(4,6,5);
+
+// body
+translate([6,0,0]){
+difference(){
+translate([5,0,8])
+scale([1.2,1,.7])
+sphere(20);
+translate([5,0,0])
+scale([1.2,1,.4])
+sphere(15);
+    translate([-20,-20,-20])
+cube([60,40,20]);
+}
+
+// tail
+hull(){
+translate([10,0,5])
+    scale([1,1.2,1])
+sphere(5);
+   translate([32,0,20])
+   sphere(2);
+   translate([22,11,10])
+   sphere(2);
+       translate([22,-11,10])
+   sphere(2);
+translate([26,0,5])
+    scale([1,2,1])
+    sphere(2);
+}
+}
+// betterbase
+translate([11,-1,0])
+cube([19,2,15]);

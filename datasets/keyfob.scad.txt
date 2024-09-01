@@ -1,0 +1,33 @@
+// 2016 Key Fob 
+// Copyright Algot Runeman, 2016
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 2016-12-22 - version01
+
+$fn=30;
+fudge = 0.1;
+
+// key fob base
+thick=2;
+difference(){
+hull(){
+{ translate([35,0,0])
+    cylinder(thick,3,3);
+    translate([0,35,0])
+    cylinder(thick,3,3);
+    translate([0,-35,0])
+    cylinder(thick,3,3);
+    translate([-35,0,0])
+    cylinder(thick,3,3);    
+}}
+// keyring hole
+translate([0,30,0])
+cylinder(3,3,3);
+}
+
+linear_extrude(4){
+text("ANN", font="Mainframe BB", size=12, halign="center", valign="center");
+}

@@ -1,0 +1,46 @@
+// Steam Engine - Boiler
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version00 - just the tube
+// version01 - added details
+difference(){
+cylinder(80,20,20);
+    cylinder(78,18,18);
+ //stack hole
+translate([15,0,60])
+rotate([0,90,0])
+cylinder(15,5.2,5.2);
+}
+
+// boiler deck
+
+translate([-10,-30,0])
+cube([2,60,80]);
+
+// headlight - not accurate location.
+translate([0,0,79])
+cylinder(5,10,10);
+translate([0,0,84])
+cylinder(5,5,5);
+translate([0,0,88])
+sphere(5);
+difference(){
+    translate([0,0,84])
+    cylinder(7,5,10);
+    translate([0,0,84])
+    cylinder(7.1,4,9);
+}
+//alignment slab - fits undercarriage slot
+translate([-21,-.9,0])
+cube([2,1.8,80]);
+
+//Engine ID number
+// smaller text didn't print well
+translate([11,0,80])
+rotate([0,0,-90])
+linear_extrude(1.5)
+text("355", size=7,halign="center");

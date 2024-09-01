@@ -1,0 +1,99 @@
+// Snowman
+// Copyright Algot Runeman
+// version00 - 2017-11-10
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// The next three variables set the view of the preview and rendering.
+// Similar results can be accomplished by draging the mouse to change rotation or right dragging to translate
+// And changing the zoom by clicking the appropriate maginify/minify icons
+// But including these in the code makes the view immediately "nice".
+// Try commenting out the three variables to see what the "normal" preview is.
+
+$vpt=[4,2.5,38];
+$vpr=[83,0,29];
+$vpd=250;
+
+// ------------------------------------------------------
+// EXPLANATION - DON'T UNCOMMENT
+// translation: $vpt [x,y,z];
+// rotation: $vpr [x,y,z];
+// distance: $vpd d;
+// ------------------------------------------------------
+
+// base sphere is cut off with a deleted cube
+// to stand flat on the print surface
+// and has a deleted sphere to reduce contact
+// with the print surface
+difference(){
+translate([0,0,10])
+sphere(20);
+translate([-30,-30,-10])
+    cube([100,100,10]); // removed to flatten base
+sphere(13); // removed to hollow base
+}
+
+// middle sphere
+translate([0,0,40])
+sphere(15);
+
+// buttons
+translate([0,-15,40])
+sphere(2);
+translate([0,-14,45])
+sphere(2);
+translate([0,-14,35])
+sphere(2);
+
+// top sphere
+translate([0,0,60])
+sphere(10);
+
+// left arm
+translate([-30,0,45])
+rotate([0,100,0])
+cylinder(20,2,2);
+
+// right arm
+translate([10,0,42])
+rotate([0,80,0])
+cylinder(20,2,2);
+
+// nose
+translate([0,-10,60])
+rotate([90,0,0])
+cylinder(5,2,1);
+
+// eyes
+translate([-4,-9,62])
+sphere(2);
+translate([4,-9,62])
+sphere(2);
+
+// hat
+translate([-1,1,65])
+rotate([-10,-10,0])
+cylinder(2,10,10);
+translate([-1,1,65])
+rotate([-10,-10,0])
+cylinder(10,7,7);
+
+// broom handle
+translate([-35,0,1])
+rotate([0,10,0])
+cylinder(60,1.5,1.5);
+{
+// broom bristles
+hull(){    
+    translate([-40,0,.5])
+ rotate([0,20,0])
+    cylinder(17,2,2);
+    translate([-30,0,0])
+    rotate([0,-5,0])
+    cylinder(16,2,2);
+}
+}
+

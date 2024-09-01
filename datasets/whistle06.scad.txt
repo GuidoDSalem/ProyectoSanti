@@ -1,0 +1,87 @@
+// whistle06
+// needs support brim
+
+// LICENSE SECTION
+// Copyright Algot Runeman, 2021
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// 2021-09-13 changed to parametric controls
+// 2021-09-14 figured out notch and blow hole -- maybe
+// 2021-10-02 add to sharp edge version 4
+// 2021-10-02 wedge added to add air speed and to hit sharp edge better
+
+// VARIABLE SECTION
+
+thk=1;
+len=100; // notch works only with 100 value at this time
+rad=9;
+ // $vpr=[160,45,188]; //only for image capture for article
+ // the normal rotation places the whistle in print position.
+// MODULE SECTION
+// the wedge aligns the blow hole to the center of the sharp edge cutout
+// and, I think, speeds up the air
+module wedge(){
+    hull (){
+       translate([0,2.5,0])
+        cube([rad*1.6,rad*.01,.1]);
+       translate([0,2.5,len*.18]) // match plug
+        cube([rad*1.6,rad*.3,.1]); // v6  is 0.3 rad wedge
+    }
+    }
+    
+    // EXECUTION SECTION
+    translate([-rad+2,0,0]) // get wedge in proper place
+    wedge();
+// outer tube
+difference(){
+    cylinder(len,rad,rad);
+    // two tone maybe with side hole
+    translate([0,0,len*.8])
+    rotate([-90,0,0])
+    cylinder(rad*2,rad/3,rad/3);
+    // gap widen with tilted cylinder
+    translate([0,1,0])
+    rotate([-1,0,0])
+    cylinder(len*.185,rad-2,rad-2);
+    translate([0,0,-.1])
+    cylinder(len*.85,rad-2,rad-2);
+    translate([0,0,len*.85])
+    sphere(rad-2);  // sphere helps avoid threading in top of cylinder 
+ // side cutout notch [[[needs work]]]
+    translate([-rad*2,rad*2.5,rad*2]) // position along tube is Z value
+    
+    rotate([90,0,90])
+linear_extrude(len*.5)
+polygon([[-rad*2,0],[rad*2,0],[rad*2,rad*8]]); // slant is final value
+// lip grip mouthpiece (remove here and from inner, too)
+    translate([-rad,-rad,0])
+    rotate([0,90,0])
+        scale([1.8,1,1]) // longer in v5
+    cylinder(len*2, rad,rad);
+}
+
+// inner plug for mouthpiece
+difference(){
+cylinder(len*.18,rad-.95,rad-.95);
+// blow slit
+    translate([-rad,rad*.28,-.1]) //  adjust opening with Y value, larger hole is smaller value 
+    cube ([rad*2,rad*2,len*.21]);
+    // lip grip mouthpiece 
+    translate([-rad,-rad,0])
+    rotate([0,90,0])
+    scale([1.8,1,1])  // longer in v5+
+    cylinder(len*.2,rad,rad);
+}
+// lanyard attachment
+translate([0,rad*.33,len])
+rotate([90,0,0])
+{
+    difference(){
+cylinder(rad*.66,rad-1,rad-1);
+        translate([0,0,-.1])
+cylinder(len*.2,rad*.5,rad*.5);
+    }}

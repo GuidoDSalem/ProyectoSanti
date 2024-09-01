@@ -1,0 +1,167 @@
+// Boxcar
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-01-19
+// version01 - simplify roof code and close gaps
+// version02 - sliding doors
+
+$fn=30;
+$vpt=[0,0,0];
+//$vpr=[85,0.0,272.00];
+$vpd=500;
+carwid=60;
+carlen=140;
+offsetx=0;
+carht=51;
+module pin(){
+    cylinder(carwid+10,1.5,.1);
+}
+module endcap(){
+    linear_extrude(2)
+    polygon( points=[[0,0],[carwid,0],[carwid*.60,10.1],[carwid*.4,10.1]], paths=[[0,1,2,3,0]],convexity=10);
+    }
+module roof(){
+    rotate([90,0,0])
+    linear_extrude(carlen)
+    polygon(points=[[0,0],[carwid*.4,10],[carwid*.6,10],[carwid,0],[carwid,2],[carwid*.6,12],[carwid*.4,12],[0,2]], path=[[0,5,4,3,2,1,0]],convexity=10);
+    translate([0,-carlen+2,0])
+    rotate([90,0,0])
+    endcap();
+    translate([0,0,0]) rotate([90,0,0]) endcap();
+}
+
+module ladder(){
+    cube([1.5,2,carht]);
+    for(k=[0:10:carht]){
+        translate([0,0,k])
+        cube([21.5,2,1.5]);
+    }
+    translate([20,0,0])
+    cube([1.5,2,carht]);
+}
+translate([carwid*.5-10,-1.9,0])
+ladder();
+translate([carwid*.5-10,carlen-.1,0])
+ladder();
+module container(){
+    // near end
+    translate([offsetx,0,0])
+    cube([carwid,2,carht]);
+
+    // far end
+    translate([offsetx,carlen-2,0])
+    cube([carwid,2,carht]);
+
+    // near side
+    difference(){
+    translate([offsetx,0,0])
+    cube([2,carlen,carht]);
+        // door
+        translate([-.1,carlen*.5-20,0])
+        cube([2.2,carlen*.25,carht*.9]);
+    }
+    //door frame - near side
+    translate([0,carlen*.5-carlen*.18,0]){
+        // vertical close
+    cube([5,2,carht*.95]);
+    translate([4.9,0,0])
+        cube([2,5,carht*.95]);
+        translate([4.9,0,0])
+        cube([2,carlen*.5,2]);
+        translate([4.9,0,carht*.9])
+        cube([2,carlen*.5,2]);
+    }
+    // vertical ext
+    translate([0,carlen*.81,0]){
+    cube([5,2,carht*.95]);
+    translate([4.9,-3,0])
+    cube([2,5,carht*.95]);
+    }
+    
+    // far side
+    difference(){
+    translate([offsetx+carwid-2,0,0])
+    cube([2,carlen,carht]); 
+        // door opening
+        translate([carwid-2.1,carlen*.5-carlen*.125,0])
+        cube([2.2,carlen*.25,carht*.9]); 
+    }
+    
+        //door frame - near side
+    translate([carwid-7,carlen*.5-carlen*.18,0]){
+        // vertical close
+    cube([5,2,carht*.95]);
+    translate([0,0,0])
+        cube([2,5,carht*.95]);
+        translate([0,0,0])
+        cube([2,carlen*.5,2]);
+        translate([0,0,carht*.9])
+        cube([2,carlen*.5,2]);
+    }
+    // vertical ext
+    translate([carwid-7,carlen*.81,0]){
+    cube([5,2,carht*.95]);
+    translate([-0,-3,0])
+    cube([2,5,carht*.95]);
+    }
+//    // pin supports
+//    for (k=[10:10:carlen]){
+//        translate([carwid*.5,k,0])
+//        pin();
+//    }
+    // roof
+    translate([0,carlen,carht-1])
+    //rotate([90,0,0])
+    roof();
+    }
+container();
+
+// door slab
+    translate([carwid+5,0,0])
+    cube([carlen*.3, carht*.98,2.5]);
+    translate([carwid+carlen*.26,carht*.5,0])
+    cube([2,5,5]);
+    
+    translate([carwid+5,carht+5,0])
+    cube([carlen*.3, carht*.98,2.5]);
+    translate([carwid+carlen*.26,carht*.5+carht+5,0])
+    cube([2,5,5]);
+
+
+////////////////////////////////////
+// FLATCAR MOCKUP
+// REMOVE FOR PRINT  
+// /////////////////////////////////
+ module trucks(){
+      module truck(){
+translate([10,15,-15])
+cube([30,30,15]);
+translate ([13,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([13,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+}
+translate([-5,0,0])
+truck();
+translate([100,0,0])
+truck();  
+translate([0,0,-2])
+cube([145,60,2]);
+}
+//translate([60,0,0])
+//rotate([0,0,90])
+//trucks();

@@ -1,0 +1,30 @@
+// Diamond Snowflake
+// version02 -2019-12-18
+// two rings of 6 touching/overlapping
+
+module diamond(){
+difference(){
+linear_extrude(2)
+    polygon(points=[[0,0],[12,18],[0,38],[-12,18]], paths=[[0,1,2,3,0]]);
+    translate([0,2.55,-.5])
+color("black",1)
+linear_extrude(3)
+scale([.8,.85,1])
+    polygon(points=[[0,0],[12,18],[0,38],[-12,18]], paths=[[0,1,2,3,0]]);
+}}
+
+// outer
+module outer(){
+    for(k=[0:120:360]){
+    translate([sin(k)*20,cos(k)*20,0])
+    rotate([0,0,k*2])
+    diamond();
+}}
+// inner
+for(k=[0:60:360]){
+    rotate([0,0,k])
+    diamond();
+}
+outer();
+rotate([0,0,60])
+outer();

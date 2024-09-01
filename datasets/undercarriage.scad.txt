@@ -1,0 +1,134 @@
+// Steam Engine - Undercarriage
+
+// Drive and Cabin Trucks
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// v2 adjusted to fit wheels better. 2018-01-08
+
+// VARIABLES
+$vpt=[-4.25,13.25,12.75];
+$vpr=[315.00,0.00,0.00];
+$vpd=290;
+thk=30; // width of undercarriage - printed vertically
+$fn=30;
+// wheel used for setup testing
+module wheel(){    
+rotate([0,0,0])
+cylinder(5,20,20);
+translate([0,0,3])
+cylinder(1,20,22);
+translate([0,0,4])
+cylinder(1,22,22);
+cylinder(42,2,2);
+}
+
+{
+ // truck under cabin
+    difference(){
+//translate([-65,-15,0])
+translate([0,-5,0])        
+cube([40,25,thk]);
+// version number
+    rotate([270,0,0])
+    translate([12,-15,19])
+    linear_extrude(2)
+    text("V2",size=5, valign="center");
+//        //rotate([90,0,0])
+//        translate([10,5,29])
+//        linear_extrude(10)
+//        text("V1",size=6);
+// cabin wheels shafts
+translate([35,0,0])
+cylinder(35,2.3,2.3);
+translate([8,0,0]) // moved two mm forward
+cylinder(35,2.3,2.3);
+    }
+
+// drive wheel
+//translate([-60,10,30])
+//
+//cylinder(5,20,20);
+difference(){
+    // drive truck
+    
+{
+    translate([-80,0,0])
+    //translate([-60,-15,-80])
+cube([80,30,thk]);
+
+}
+// boiler tube cutout
+//translate([-15,0,-80])
+translate([-81,45,15])
+rotate([0,90,0])
+cylinder(82,20,20);
+translate([-81,23,14])
+cube([82,5,2]);
+
+// drive wheel shaft
+translate([-70,10,0])
+cylinder(50,2.3,2.3);
+// drive wheel shaft
+translate([-25,10,0])
+cylinder(50,2.3,2.3);
+
+}
+}
+
+//// Wheels to end for testing
+//// offside drive wheel
+//
+//translate([-70,10,30]){
+//    difference(){
+//        wheel();
+////            for(x=[-15:60:4*60]){
+////    rotate([0,0,x])
+////    slot();
+//translate([12,-8,0])
+//        cylinder(3,2.9,3.3);
+//cylinder(50,2.15,2.15);
+//    }
+//        }
+//        
+//// offside drive wheel
+//
+//translate([-25,10,30]){
+//    difference(){
+//        wheel();
+////            for(x=[-15:60:4*60]){
+////    rotate([0,0,x])
+////    slot();
+//translate([12,-8,0])
+//        cylinder(3,2.9,3.3);
+//cylinder(50,2.15,2.15);
+//    }
+//        }       
+//       
+//           //carriage wheel rear
+//translate([35,0,30])
+//{
+//cylinder(5,10,10);
+//    translate([0,0,3])
+//    cylinder(1,10,12);
+//    translate([0,0,4])
+//    cylinder(1,12,12);
+//}
+//
+//    //carriage wheel forward
+//translate([10,0,30])
+//{
+//cylinder(5,10,10);
+//    translate([0,0,3])
+//    cylinder(1,10,12);
+//    translate([0,0,4])
+//    cylinder(1,12,12);
+//}
+
+//// alignment test
+//translate([-80,-14,30])
+//cube([140,3,3]);

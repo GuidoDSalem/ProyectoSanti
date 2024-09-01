@@ -1,0 +1,121 @@
+// Egguardo - Waving
+// version01 - 2019-03-15
+use<hands-cartoon.scad>
+use<lips-cartoon.scad>
+$fn=30;
+
+// The foot module is very much like the
+// hand and lips modules pulled in with "use"
+// Keeping modules in one file makes a simpler "deliverable".
+// Keeping modules in separate "libraries" makes a neat reusable structure.
+// Libraries are worth exploration for their reusability.
+
+   // foot
+   module foot(){
+   translate([0,-9,0])
+   cylinder(2,5.2,5.2);
+   translate([0,0,0])
+   cylinder(2,4.1,4.1);
+   hull(){
+       translate([0,-9,3])
+       scale([1,1,.6])
+       sphere(5);
+              translate([0,0,3])
+       scale([1,1,.6])
+       sphere(4);
+   }
+   }
+   // right foot and leg
+   translate([-8,0,0])
+
+   rotate([0,0,-10])
+   foot();
+        translate([-8,0,2])
+     rotate([0,10,0])
+     cylinder(14,2,2);
+   
+   // left foot and leg
+   translate([8,0,0])
+   rotate([0,0,10])
+   foot();
+        translate([8,0,2])
+     rotate([0,-10,0])
+     cylinder(14,2,2);
+   
+   // egg body
+   translate([0,0,22])
+   scale([1.1,1.1,1.1])
+   hull(){
+translate([0,0,10])
+scale([1,1,1.35])
+sphere(10);
+
+    translate([0,0,8.5])
+    sphere(10.5);
+    translate([0,0,8.1])
+    sphere(11.1);
+    translate([0,0,7.5])
+    sphere(11.1);
+    translate([0,0,5])
+    sphere(11.9);
+        translate([0,0,3])
+    sphere(12);
+sphere(9);
+
+}
+
+translate([0,0,0])
+// right arm and hand
+translate([-10,0,25])
+rotate([0,-70,0])
+cylinder(12,2,2);
+translate([-20,0,28])
+rotate([0,0,0])
+cylinder(12,2,1.5);
+translate([-20,0,42])
+rotate([0,0,0])
+open_hand();
+
+// left arm and hand
+translate([10,0,25])
+rotate([0,110,0])
+cylinder(12,2,2);
+translate([21,0,21.5])
+rotate([0,255,0])
+cylinder(12,2,1.5);
+translate([11,0,15])
+rotate([200,0,70])
+mirror()
+open_hand();
+
+// right eye
+translate([-5,-10,30])
+rotate([85,0,-20])
+cylinder(2,5,5);
+//ball
+difference(){
+translate([-5,-10,30])
+sphere(4);
+translate([-5.5,-13,30])
+sphere(2);
+}
+//left eye
+translate([5,-10,30])
+rotate([85,0,20])
+cylinder(2,5,5);
+//ball
+difference(){
+translate([5,-10,30])
+sphere(4);
+translate([5.5,-13,30])
+sphere(2);
+}
+
+//lips from file
+translate([0,-13,25])
+rotate([-90,180,180])
+lips();
+
+
+
+

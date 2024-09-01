@@ -1,0 +1,157 @@
+// TP Roll Extender
+// Copyright Algot Runeman, 2021
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 -2021-04-07 - all sizes for concept only
+// version01 - 2021-04-08 - modular rework
+// version02 -2021-07-07 - combine nub shape for attachment to wall fixture
+// version03 - 2021-07-08 - to allow print or assembled view
+// version04 - 2021-07-12 - redesign flanges and tube elements
+
+// VARIABLES
+thk=2.5; // layer thickness
+outer=12.5; // sleeve tube radius
+inner=outer-thk;
+offset=outer*2.2; // provides printing space between printed parts
+adj = 2;
+len=80; 
+print=1; // Set to 1 for print positioning - otherwise show assembled
+
+// MODULES
+module flange(){
+// extender flange 
+difference(){
+hull(){
+cylinder(thk,outer,outer);
+translate([0,offset/adj+outer,-.1]) // adjust flange length with offset value
+cylinder(thk,outer*.75,outer*.75);
+}
+// hole through flange for bolt
+translate([0,0,-.1])
+cylinder(thk*1.1,2,2);
+// notch for mating with core and sleeve
+translate([0,outer*.5,0])
+rotate([90,0,0])
+cylinder(outer,2,2);
+}
+translate([0,offset/adj+outer,-.1]) 
+    // nub
+    hull(){
+     cylinder(thk,inner*.8,inner*.6); // sloped for fit to wall fixture   
+     cylinder(thk*.5,outer*.5,outer*.3);
+    translate([0,0,thk*4])
+    scale([1,1,.5]) // squash the sphere 
+    sphere(inner/3);
+    }
+} // end flange
+
+module sleeve(){
+// outer sleeve 
+// pin to align sleeve and inner cylinder
+ translate([0,inner,0])
+rotate([-6,0,0])
+cylinder(len*.1,.5,2.2);  // tapered pin to slide along the core groove need to pop into groove with a good tap
+    translate([0,inner-.4,len*.1])
+cylinder(len*.05,2,2);  // extend tapered pin to slide along the core groove
+// horizontal cylinder ridge to fit flange
+    difference(){
+    translate([0,outer*.4,len])
+    rotate([90,0,0])
+    cylinder(outer*.8,1.9,1.9); // smaller than notch in flange
+        // bolt hole
+        translate([0,0,len*.9])
+        cylinder(thk*5,2,2);
+    }
+// main sleeve body
+difference() {
+    cylinder(len,outer,outer);
+    translate([0,0,-.1]) // adjusted to avoid z-fighting at bottom of tube
+    cylinder(len*.95,inner+.5,inner+.5);
+   // %cylinder(len,inner,inner);  // test print view for fit
+            // bolt hole
+        translate([0,0,len*.9])
+        cylinder(thk*5,2,2);
+}
+}
+
+module core(){
+// inner part - fits into sleeve
+    // alignment 'pin'
+   difference(){
+    translate([0,outer*.4,len])
+    rotate([90,0,0])
+    cylinder(outer*.8,1.9,1.9); // smaller than notch in flange
+        // bolt hole
+        translate([0,0,len*.9])
+        cylinder(thk*5,2,2);
+   }
+difference(){
+translate([0,0,0])
+cylinder(len,inner,inner);
+// groove to align with the pin of the sleeve
+translate([0,inner,len*.05])
+cylinder(len,2.2,2.2);  // make this full length for a test run to judge spring tension
+    // the groove is made short to capture the mating pin on the sleeve
+    // but is 'fixed' once the parts are tapped together.
+    // notch to ease shoving parts together
+    translate([0,inner,0])
+    cylinder(len*.051,2.5,.1);
+            // bolt hole
+        translate([0,0,len*.8])
+       cylinder(len*.3,2,2);
+}
+
+}
+
+// EXECUTE
+// print positions
+if (print==1){
+// Glue and add bolt for strength
+    sleeve();
+    translate([offset,0,0])
+core();
+    translate([offset*2,0,0])
+    flange();
+    translate([-offset,0,0])
+    flange();
+}
+
+// Display as if assembled
+// IMPORTANT: REAL ONE NEEDS A COMPRESSION SPRING 
+// PUT IN BEFORE SLIDING TOGETHER
+// SPRING LENGTH = 2.25 INCHES (60mm)
+// May need to stretch a 2 inch spring (what I could find in local store)
+// To experiment, print a core with a full-length groove and no 'catch'.
+if (print!=1){
+    rotate([90,0,0])
+    sleeve();
+    translate([0,0,0])
+    rotate([-90,0,0])
+    flange(); 
+   translate([0,-len*1.8,0])
+    rotate([-90,0,0])
+    core();
+    translate([0,-len*1.8,0])
+    rotate([90,180,0])
+    flange();    
+}
+
+// To simulate a roll of toilet paper in place.
+// Use with print value of 0 for this purpose
+// uncomment the following lines to simulate a roll of paper in place
+//
+//    rotate([90,0,0])
+//    translate([0,outer,thk])
+//   %cylinder(len*1.7,len,len);
+//    rotate([90,0,0])
+//    translate([0,outer,thk])
+//   %cylinder(len*1.75,len/3,len/3);
+//translate([len,-len*1.75,len*1.2])
+//rotate([0,90,0])
+//%cube([len,len*1.75,.1]);
+
+   

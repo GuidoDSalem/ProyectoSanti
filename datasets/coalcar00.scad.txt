@@ -1,0 +1,102 @@
+// Coal Car
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-01-17
+// print at 0.85% on Lulzbot mini 
+
+$vpt=[0,0,0];
+$vpd=500;
+carwid=60;
+carlen=145;
+
+module contend(){
+linear_extrude(2)
+    polygon( points=[[0,0],[40,0],[60,50],[-20,50]], paths=[[0,3,2,1,0]],convexity=10);
+}
+module contside(){
+linear_extrude(2)
+    polygon( points=[[0,0],[carlen-20,0],[carlen,50],[-20,50]], paths=[[0,3,2,1,0]],convexity=10);    
+}
+module support(){
+    linear_extrude(5)
+    polygon( points=[[0,0],[15,0],[20,45]], paths=[[0,2,1,0]],convexity=10);
+    }
+    
+module container(){
+    // near end
+    translate([0,0,0])
+    rotate([113,0,0])
+    contend();
+    translate([-20,-21,44])
+    cube([80,2,10]);
+    // far end
+    translate([0,125,0])
+    rotate([66,0,0])
+    contend();
+    translate([-20,143,44])
+    cube([80,2,10]);
+    // near side 
+    translate([0,0,0])
+    rotate([66,0,90])
+    contside();
+    translate([-20,-21,44])
+    cube([2,165,10]);
+    // far side
+    translate([38,0,0])
+    rotate([113,0,90])
+    contside();
+    translate([58,-21,44])
+    cube([2,165,10]);
+    // bottom
+    cube([40,125,2]);
+    // nearside supports
+    for(k=[5:18:130]){
+        translate([0,k,0])
+        rotate([270,180,0])
+        support();}
+        // offset is different because of reverse rotation
+    for(k=[10:18:130]){
+        translate([40,k,0])
+        rotate([270,180,180])
+        
+        support();}
+    }
+    container();
+    
+      ////////////////////////////////////
+      // FLATCAR MOCKUP
+      // REMOVE FOR PRINT  
+      ///////////////////////////////////
+ module trucks(){
+      module truck(){
+translate([10,15,-15])
+cube([30,30,15]);
+translate ([13,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([13,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+}
+translate([-5,0,0])
+truck();
+translate([100,0,0])
+truck();  
+translate([0,0,-2])
+cube([145,60,2]);
+}
+//translate([50,-10,0])
+//rotate([0,0,90])
+//trucks();

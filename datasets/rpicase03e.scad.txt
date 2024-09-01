@@ -1,0 +1,180 @@
+// Raspberry Pi Case (fits Pi 3B+)
+// version 03e - case with openings and Pi logos
+// fixed corner catches to clear USB socket
+// and tapered catches for easier cover placement
+// added ability to produce just cover or base alone
+// added option to do either vent holes or logo holes
+// 92mm x 63mm x 26mm nominal dimensions taken from commercial case
+
+//==========//
+// MODULES
+//==========//
+module side(){ cube([92,2,ht]);}
+module end(){ cube([2,63,ht]);}
+module catch(){  
+       hull(){
+        cube([5,2,7]);
+        
+        translate([1,1,8])
+            sphere(1);
+        translate([4,1,8])
+           sphere(1);
+        }
+} // end catch module
+
+module logo(){
+    // converted from PNG image by Kristen Firpo
+// https://www.pngitem.com/middle/ibbTTmJ_transparent-raspberry-pi-logo-png-raspberry-pi-logo/
+    scale([.2,.2,1]) // original SVG was large
+    linear_extrude(3)
+    rotate([0,0,90])
+    import("rpilogo2.svg");
+} // end logo module
+
+module brace(){  // for strength and board capture
+     translate([4,0,0])
+    rotate([90,0,90])
+    linear_extrude(3)
+    polygon(points=[[0,0],[4,0],[2,ht-2],[0,ht-2],[0,0]]);
+}
+
+module cover(){
+// slab (of cover) with air holes and RPi Logo
+difference(){
+cube([92,63,2]);
+    if(vents==1){
+    //Ventilation holes loops
+       for (i=[10:10:50]){
+    for (k=[10:10:80]){
+        translate([k,i,-.1])
+        scale([1,1.8,1])
+        cylinder(5,2,2);
+    }
+    }
+    } // end of hole scope
+        else
+    {
+    // Pi Logo
+for (i=[20:26:76]){
+    for (k=[11:20:60]){
+        translate([i,k,-.1])
+//        scale([1,1.8,1])
+       logo();
+    }
+    }
+} // end of logo hole scope
+} // end of difference with cover slab
+    
+//walls (of cover)
+cube([2,63,5]); // near end
+translate([90,0,0])
+cube([2,63,5]); // far end  
+cube([92,2,5]); // side
+translate([0,61,0])
+cube([92,2,5]); // opposite side
+
+// corner catches
+ translate([2,2,0])
+     catch();
+ translate([2,59,0]) 
+      catch();
+   translate([85,2,0])
+       catch();
+   translate([85,59,0])
+   catch();
+} // end of cover module
+
+
+ module base(){
+// Base of Case
+// slab of base
+cube([92,63,2]);
+//walls
+difference(){
+side();
+    // Air flow holes (side)
+    for(i=[10:10:80]){
+        translate([i,3,ht/3])
+        rotate([90,0,0])
+        cylinder(5,3,3);
+                translate([i,3,2*ht/3])
+        rotate([90,0,0])
+        cylinder(5,3,3);
+    }
+}
+// add braces for board fit.
+translate([10,0,0])
+brace();
+translate([40,0,0])
+brace();
+translate([60,0,0])
+brace();
+difference(){
+    end(); // near "open" end
+    translate([-1,6,4])
+    cube([5,53,ht+.1]);
+}
+
+difference(){
+    // "far" side with gaps for 
+    // a/v socket
+    // hdmi socket
+    // power in socket
+    
+translate([0,61,0])
+side();
+    translate([34,66,9])
+    // A/V socket
+   rotate([90,0,0])
+    cylinder(10,6,6);
+translate([46,60,0])
+    cube([19,5,gapht]); // hdmi socket with curved top
+    translate([55.5,66,gapht])
+    rotate([90,0,0])
+    scale([1,.3,1])
+    cylinder(8,9.4,9.4);
+translate([71,60,0])
+    cube([12,5,gapht]); // power socket with  curved top
+    translate([77,66,gapht])
+    rotate([90,0,0])
+    scale([1,.3,1])
+   cylinder(8,6,6);
+}    
+// side braces help to hold board solidly
+// and strengthen the side pieces.
+    translate([20,63,0])  // first from open end
+    rotate([0,0,180])
+    brace();
+    translate([50,63,0]) // after a/v socket
+    rotate([0,0,180])
+    brace();
+    translate([73,63,0]) // after hdmi socket
+    rotate([0,0,180])
+    brace();
+
+// closed end of case
+translate([90,0,0])
+end();
+} // end of base module
+
+//=====================//
+// Compile-time Constants //
+//====================//
+
+// split value determines what parts are done
+split=3; // 1: base only - 2: cover only - 3: both
+// vents value determines the cover's vent holes
+vents=2; // 1: simple holes, else will be logos
+ht=23;  // wall height 
+gapht=12; // rectangular connection hole height before curve top which makes printing holes easier.
+
+//=======================//
+// EXECUTE 
+//=======================//
+
+if(split == 1){ base();} // print base only
+  else if(split==2){ cover(); } // print cover only
+  else if(split==3){ base(); // print both
+    translate([0, -65,0]) // whole cover code shifted along Y axis to sit "south" of the X axis
+ cover();
+}

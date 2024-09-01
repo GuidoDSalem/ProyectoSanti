@@ -1,0 +1,217 @@
+// Triangle Puzzle Game
+// version00 - 2019-12-08
+// version02 - 2019-12-09 - restructure holes
+// version03 - 2019-12-09 - multiple print options using display value
+// version04 - 2019-12-10 - base release and peg grid added
+// tri=80 ~ 2hr 45min print time
+
+// version05 - add another row of two!
+// I didn't actually look close enough at the source before jumping into the design.
+// also added more peg support
+
+
+/////////////////////////////////////
+// LICENSE  SECTION    //
+////////////////////////////////////
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+///////////////////////////////////
+// VARIABLE SECTION //
+//////////////////////////////////
+// top point appx 86.6 =sqrt(3)/2*100
+// that translates into .866 times any size you
+// choose for the triangle variable (tri).
+
+display=0; 
+  // if display=0, print version pegs and pins
+  // if display=1, print only pegs
+  // if display=2, print only triangle with holes
+  // if display=3, show pegs in place for image
+
+tri=100; // triangle base size
+thk=10; // game thickness
+rounding=2; // rounding factor
+hoffset=tri/6; // horizontal spacing
+voffset=tri/7; // vertical shift between rows
+adj=4; // shift holes down a bit
+peg=2;  // peg radius
+holesize=peg+.35; // wiggle room
+$fn=30; // smoothing
+// viewpoint settings
+$vpt=[3.79,28.58,7.35];
+$vpr=[14.40,0.00,360];
+$vpd=360;
+
+/////////////////////////////////////
+// MODULE SECTION     //
+////////////////////////////////////
+module triangle(){
+    difference(){ // base release hollow
+hull(){
+translate([-tri/2,0,0])
+cylinder(1,rounding,rounding);
+    translate([-tri/2,0,thk-rounding/2])
+    sphere(rounding);
+translate([tri/2,0,0])
+cylinder(1,rounding,rounding);
+translate([tri/2,0,thk-rounding/2])
+sphere(rounding);
+translate([0,tri*.866,0]) // equilateral appx.
+cylinder(1,rounding,rounding);
+    translate([0,tri*.866,thk-rounding/2])
+    sphere(rounding);
+}
+
+translate([0,tri*.29,0]) // base release hollow
+scale([3,3,.1])
+sphere(tri*.1);
+}
+}
+
+module hole() {
+    translate([0,0,2])
+    cylinder(thk,holesize, holesize); // main
+    translate([0,0,thk])
+    cylinder(2.1,holesize,holesize+2); // taper
+}
+module holes(){
+    for(k=[0:1:2]){
+// row 1 (five holes)
+translate([hoffset*k,voffset-adj,0])
+hole();
+translate([-hoffset*k,voffset-adj,0])
+hole();
+ }
+// row 2 (four holes)
+translate([hoffset/2,voffset*2-adj,0])
+    hole();
+translate([-hoffset/2,voffset*2-adj,0])
+    hole();
+translate([hoffset/2+hoffset,voffset*2-adj,0])
+    hole();
+translate([-hoffset/2-hoffset,voffset*2-adj,0])
+    hole();
+// row 3 (three holes)
+translate([0,voffset*3-adj,0])
+hole();
+translate([hoffset,voffset*3-adj,0])
+hole();
+translate([-hoffset,voffset*3-adj,0])
+hole();
+// row 4 (two holes)
+translate([hoffset/2,voffset*4-adj,0])
+hole();
+translate([-hoffset/2,voffset*4-adj,0])
+hole();
+//  top row singleton
+translate([0,voffset*5-adj,0])
+hole();
+}
+module pegz(){
+    translate([0,0,0])
+    cylinder(2,peg-1,peg);
+    translate([0,0,1.9])
+    cylinder(thk+10,peg,peg);
+    translate([0,0,thk+10])
+    sphere(peg*1.75);
+}
+
+/////////////////////////////////////
+// EXECUTE SECTION    //
+////////////////////////////////////
+
+// pegs along with triangle and holes
+if (display==0) {    // complete version
+difference(){
+    triangle();
+    holes();
+}
+// pegs and support
+    for (k=[0:1:7]){
+    translate([-tri/2-1+hoffset*.9*k,-10,0])
+    pegz();
+    translate([-tri/2-1+hoffset*.9*k,-22,0])
+    pegz();
+ // peg support needed
+    translate([-tri/2-1+hoffset*.9*k,-22,0])
+    cube([2,11,2]);
+    translate([-tri/3-1+hoffset*.9*k-hoffset/2,-22,0])
+    rotate([0,0,45])
+    if (k<7) cube([10,10,1.5]);
+    translate([-tri/2,-11,0])
+        cube([tri+hoffset*.4,2,2]);
+ translate([-tri/2,-23,0])
+        cube([tri+hoffset*.4,2,2]);
+    } 
+}
+// pegs only
+if (display==1){
+// pegs and support
+    for (k=[0:1:7]){
+    translate([-tri/2+hoffset*.9*k,-10,0])
+    pegz();
+    translate([-tri/2+hoffset*.9*k,-22,0])
+    pegz();
+ // peg support needed
+    translate([-tri/2-1+hoffset*.9*k,-22,0])
+    cube([2,11,2]);
+    translate([-tri/3-1+hoffset*.9*k-hoffset/2,-22,0])
+    rotate([0,0,45])
+    if (k<7) cube([10,10,1.5]);
+ translate([-tri/2-1,-11,0])
+        cube([tri+hoffset*.4,2,2]);
+ translate([-tri/2,-23,0])
+        cube([tri+hoffset*.4,2,2]);
+    } 
+}
+// triangle and holes only
+if (display==2) {
+    difference(){
+        triangle();
+        holes();
+    }
+}
+// For image capture of the game start position
+if (display==3) {
+    difference(){
+    triangle();
+    holes();
+    }
+// pegs in place
+    for(k=[0:1:2]){
+// row 1 (five holes)
+translate([hoffset*k,voffset-adj,2])
+pegz();
+translate([-hoffset*k,voffset-adj,2])
+pegz();
+ }
+// row 2 (four holes)
+translate([hoffset/2,voffset*2-adj,2])
+    pegz();
+translate([-hoffset/2,voffset*2-adj,2])
+    pegz();
+translate([hoffset/2+hoffset,voffset*2-adj,2])
+    pegz();
+translate([-hoffset/2-hoffset,voffset*2-adj,2])
+    pegz();
+// row 3 (three holes)
+translate([0,voffset*3-adj,2])
+pegz();
+translate([hoffset,voffset*3-adj,2])
+pegz();
+translate([-hoffset,voffset*3-adj,2])
+pegz();
+// row four (two holes)
+translate([hoffset/2,voffset*4-adj,2])
+pegz();
+translate([-hoffset/2,voffset*4-adj,2])
+pegz();
+//  top row singleton  left empty for display
+//translate([0,voffset*5-adj,2])
+//pegz();
+}

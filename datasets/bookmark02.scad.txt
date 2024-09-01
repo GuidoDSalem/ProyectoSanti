@@ -1,0 +1,36 @@
+// Bookmark
+
+// version00 - 2017-09-16
+// version01 - 2017-09-16 add mark
+// version02 - 2017-09-16 longer and wider
+
+// LIBRARIES
+use<mark.scad>
+
+// VARIABLES
+
+$fn=50;
+len=140;
+wid=40;
+thk=.65;
+
+module slab(){
+minkowski(){
+cube([wid,len,thk]);
+    cylinder(thk,1,1);
+}}
+
+difference(){
+    slab();
+        translate([wid/2,len/10,-1])
+        rotate([0,0,90])
+        linear_extrude(thk*5){
+            // valign="center" centers text on width
+        text("jeff",font="Octin Stencil", valign="center", size=22);} 
+        // resize text as needed
+        translate([wid/2,5,-1])
+        cylinder(thk*5,2,2);
+    translate([wid/2,len*.87,thk*.8])
+scale([.30,.27,.05]) // may need to resize
+mark();
+}

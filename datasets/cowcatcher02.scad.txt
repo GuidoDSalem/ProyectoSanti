@@ -1,0 +1,21 @@
+// Steam Engine - Cowcatcher
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version02
+
+difference(){
+translate([0,0,1])
+hull(){
+translate([0,30,0]) sphere(1);
+translate([30,30,0]) sphere(1);
+translate([15,30,30]) sphere(1);
+translate([15,0,0]) sphere(1);
+    }
+    
+ for(k=[3:4:30]){ translate([0,k,2]) cube([40,3,k-1]);}
+ }

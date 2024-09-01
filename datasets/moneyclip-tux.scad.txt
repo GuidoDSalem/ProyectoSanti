@@ -1,0 +1,61 @@
+// moneyclip - tux version
+
+// GPL Statement
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+use <tux-logo.scad>
+// Position for easy viewing
+$vpt=[35,0,25];
+$vpr=[70,0,345];
+$vpd=200;
+
+module clip(){
+// bottom slab
+hull(){
+cube([2,2,50]);
+    translate([90,0,3])
+    rotate([90,0,0])
+cylinder(1,3,3);
+    translate([90,0,47])
+    rotate([90,0,0])
+cylinder(1,3,3);
+}
+
+// closed end
+difference(){
+translate([0,-6,0])
+cylinder(50,8,8);
+translate([0,-6,-.1])
+cylinder(51,6,6);
+ translate([0,-12,-.1])
+    cube([10,12,51]);
+}
+
+// top slab
+hull(){
+translate([0,-14,0])
+cube([2,2,50]);
+translate([82,-3,0])
+    cube([1,1,50]);
+}
+// curve at open end of upper slab
+    for(i=[0:2:30]){
+    translate([sin(i)*10+82,cos(i)*10-12.5,0])
+//    rotate([270,0,0])
+   cylinder(50,.7,.7); // adjust first value for width of moneyclip
+}
+// add logo
+translate([40,-8,25]) // position center of upper slab and embed logo
+rotate([90,0,8]) // adjust to print on upper slab
+scale([.4,.4,1]) // adjust size based on logo
+tuxcut(2);
+
+// end comment here
+}
+// EXECUTE THE CODE
+clip();

@@ -1,0 +1,110 @@
+//  Figurine Male
+// version 01
+// 2017-01-23
+// Algot Runeman
+// 94mm tall - 1hr+ to print on Lulzbot Mini
+
+// VARIABLES
+// z-scale variables
+base=2;
+calfa=6;
+calfb=6;
+thigha=8;
+thighb=9;
+hipht=10;
+thoraxht=16;
+
+// x-scale variables
+shift=12;
+hip=-5;
+hip2=shift + 2*(-hip);
+
+// EXECUTABLE CODE
+// leg #1
+translate([shift-shift,0,0])
+{ 
+cylinder(base,6,6);
+
+translate([0,0,base])
+cylinder(calfa,4,5);
+
+translate([0,0,base+calfa])
+cylinder(calfb,5,4);
+
+translate([0,0,base+calfa+calfb])
+cylinder(thigha,4,6);
+
+translate([0,0,base+calfa+calfb+thigha])
+cylinder(thighb,6,5);
+}  
+
+// leg #2
+
+translate([shift,0,0])
+{
+
+cylinder(base,6,6);
+
+translate([0,0,base])
+cylinder(calfa,4,5);
+
+translate([0,0,base+calfa])
+cylinder(calfb,5,4);
+
+translate([0,0,base+calfa+calfb])
+cylinder(thigha,4,6);
+
+translate([0,0,base+calfa+calfb+thigha])
+cylinder(thighb,6,5);
+}
+
+// hips
+
+translate ([hip,hip,base+calfa+calfb+thigha+thighb])
+{ 
+   cube([22,10,hipht],center=false);
+}
+
+// thorax
+hull()
+{
+translate ([1,hip+5,base+calfa+calfb+thigha+thighb+hipht])
+cylinder(thigha+thighb,6,8);
+translate ([hip-3.2*hip,hip+5,base+calfa+calfb+thigha+thighb+hipht])
+cylinder(thigha+thighb,6,8);
+}
+
+// shoulders
+hull(){
+translate([shift-shift+.5,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+cylinder(5,8,6);
+translate ([hip-3.2*hip,hip+5,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+cylinder(5,8,6);
+    
+   
+}
+// neck
+translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5])
+ cylinder(5,5,5);
+// translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5+5])
+// cylinder(5,6,8);
+
+// head
+translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5+8]) // embed bottom of head sphere
+sphere(8);
+
+// left arm
+translate([-shift/2,0,base+calfa+calfb+thigha+thighb])
+cylinder(28,3,5);
+translate([-shift/2,0,base+calfa+calfb+thigha+thighb])
+sphere(3);
+translate([shift/2-12,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+sphere(5);
+
+// right arm
+translate([18,0,base+calfa+calfb+thigha+thighb])
+cylinder(28,3,5);
+translate([18,0,base+calfa+calfb+thigha+thighb])
+sphere(3);
+translate([18,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+sphere(5);

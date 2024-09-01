@@ -1,0 +1,57 @@
+// Crank for Black and Decker workstand
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// first attempt at a part for practical repair
+// version03 - 2017-03-11 move the pin hole
+// version02 - 2017-02-05 with more accuracy
+// version01 - 2017-02-05 for appx. dimensions
+
+$fn=30;
+
+// crank arm 
+// handle end
+
+    difference(){
+        translate([55,0,0])
+cylinder(5,11,11);
+        translate([55,0,0])
+        cylinder(5.5,6.5,6.5); // inside
+        
+}
+linear_extrude(height=5, convexity=10){
+polygon(points=[[0,12.5],[53,9],[47,0],[53,-9],[0,-12.5]]);
+}
+
+// hub end
+difference(){
+    // outer 
+cylinder(42,12.5,12.5);
+    // inner removed
+    translate([0,0,5])
+    cylinder(39,5.6,5.6);
+    // pin hole removed
+        translate([0,15,16])
+        rotate([90,0,0])
+        cylinder(28,1.9,1.9);
+    }
+    
+
+// crank handle
+module hub(){
+translate([0,25,0])
+cylinder(40,12,8);
+translate([0,25,0])
+cylinder(45.5,6,6);
+translate([0,25,45.5])
+cylinder(3,6.5,6);}
+difference(){
+    hub();
+    translate([-8,22.5,40])
+cube(size=[16,5,12], center=false);
+}

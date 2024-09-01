@@ -1,0 +1,149 @@
+// Laptop Camera Cover Clip
+// NatickFOSS Version
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// clip00 - 2018-10-20
+// clip01 - 2018-10-20 tilt back
+// clip02 - 2018-10-20 built-in googlie eyes
+// clip02-nf - 2018-10-21
+// clip02-nf-quarter - 2018-11-02
+// adjust gap as needed.
+
+// positioned to show the front of the clip
+// but still in print orientation
+$vpt=[4.74,23.68,18.80];
+$vpr=[92.80,0,88.70];
+$vpd=140;
+
+$fn=30;
+
+// gap=5; // standard Acer and Chromebook
+// effective max for this design is 7.5mm
+// the gap size prints on the back slab
+gap=6.3; // quarter inch for thicker screen/bezel
+// basic front and top
+cube([2,20,30]); // front slab
+difference(){
+translate([-3.8,18.5,0])
+cylinder(30,6,6);
+translate([-3.8,18.5,-.10])
+cylinder(31,4,4);
+// create gap in top loop
+    translate([-2.5,14,-.1])
+    cylinder(31,3,3);
+translate([-(gap-1),10,-.1])
+    cube([4,10,31]);
+}
+
+// back "hook"
+// making it easier to catch on the screen bezel
+difference(){
+translate([-(gap+1.6),3.5,0])
+cylinder(30,3,3);
+translate([-(gap+3),4,-.1])
+cylinder(31,2.5,2.5);
+translate([-(gap+3),5,-.1])
+    cube([2,5,31]);
+translate([-(gap+1),-4,-.1])
+rotate([0,0,40])
+cube([4,10,31]);
+}
+// back slab
+translate([-(gap+1),5,0])
+rotate([0,0,8])
+cube([2,15,30]);
+translate([-(gap+1),10,15])
+rotate([0,-90,8])
+
+// label the clip with the gap size
+// convert the gap value to a printable string
+color("black",1.0){
+linear_extrude(1.5){
+    text(str(gap), font="Academic M54", size=4, halign="center");
+}}
+
+// ADDITIONAL/OPTIONAL DETAILS
+// eyes
+module eye(){
+translate([4,0,0])
+    sphere(2);
+difference(){
+translate([0,0,0])
+sphere(5);
+        translate([4,-5,-5])
+cube([3,10,10]);
+}}
+
+translate([-1,25,9])
+eye();
+translate([-1,25,21])
+eye();
+
+// fingers
+// left
+hull(){
+translate([2,7,1])
+sphere(1);
+translate([2,7,4])
+sphere(1);
+}
+hull(){
+translate([2,9,1])
+sphere(1);
+translate([2,9,4])
+sphere(1);
+}
+hull(){
+translate([2,11,1])
+sphere(1);
+translate([2,11,4])
+sphere(1);
+}
+
+// fingers
+// right
+hull(){
+translate([2,7,26])
+sphere(1);
+translate([2,7,29])
+    rotate([0,90,0])
+sphere(1);
+}
+hull(){
+translate([2,9,26])
+sphere(1);
+translate([2,9,29])
+sphere(1);
+}
+hull(){
+translate([2,11,26])
+sphere(1);
+translate([2,11,29])
+sphere(1);
+}
+// Specifying black color only matters for the preview and image capture. It has no effect on final rendering or printing.
+// You need to have the selected font on your computer. I found that the standard font in OpenSCAD did not produce legible writing.
+
+//color("black",1.0){
+//translate([1,13,15])
+//rotate([0,90,0])
+//linear_extrude(1.5){
+//    text("NatickFOSS", font="Academic M54", size=4, halign="center");
+//}
+//translate([1,7,15])
+//rotate([0,90,0])
+//linear_extrude(1.5){
+//    text("CAMERA", font="Academic M54", size=4, halign="center");
+//}
+//translate([1,1,15])
+//rotate([0,90,0])
+//linear_extrude(1.5){
+//    text("SECURITY", font="Academic M54", size=4, halign="center");
+//}
+//}

@@ -1,0 +1,201 @@
+ // critter with crest - and hugs sign
+
+// GPL Statement
+
+// Copyright Algot Runeman, 2021
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version 1 - 2019-08-19 basic critter 
+// version 4 - 2019-08-23  with scales
+// version 5 - 2021-08-15 add sign and comments
+
+// VARIABLES
+$fn=30;
+print=1; // Control "in place or print arrangement
+
+// Sign in print location or "in place" for screen shots
+if(print==1){
+translate([40,0,0])
+sign();
+}
+else {
+        translate([0,-25,16])
+    rotate([60,0,0])
+   sign();
+}
+
+// MODULES
+
+// Hugs for Free sign
+module sign(){
+translate([-20,-18,0])
+    difference(){
+cube([40,36,1]);
+        translate([4,32,-.1])
+    cylinder(2,2.5,2.5);
+translate([36,32,-.1])
+    cylinder(2,2.5,2.5);
+    }
+color("red"){
+translate([0,1,0])
+linear_extrude(2)
+text("HUGS", font="Liberation Sans", halign="center");
+translate([-2,-8,0])
+linear_extrude(2)
+text("4", font="Liberation Sans",  halign="center");
+translate([0,-17,0])
+linear_extrude(2)
+text("FREE", font="Liberation Sans", halign="center");
+}
+} // end sign module
+
+// The implementation of scales on the body is slow during rendering
+module scale2(){
+hull(){
+    cylinder(.2,3,2);
+translate([-1,1,.5])
+cube([2,2,.5]);
+}}
+module ring(){
+for(k=[0:27:350]){
+           translate([sin(k)*4.7,cos(k)*4.7,0])
+        rotate([240,180,-k])
+
+      //echo(k,k%2);
+      scale2();
+}
+}
+
+module limb(){
+
+for (k=[30:5:45]){
+    hull(){
+        translate([sin(k)*20,cos(k)*20,0])
+        sphere(2);
+            translate([sin(k+5)*20,cos(k+5)*20,0])
+        sphere(2);}
+}
+for (k=[45:5:60]){
+    hull(){
+        translate([sin(k)*20,cos(k)*20,0])
+        sphere(1.8);
+            translate([sin(k+5)*20,cos(k+5)*20,0])
+        sphere(1.8);}
+}
+
+for (k=[60:5:90]){
+    hull(){
+        translate([sin(k)*20,cos(k)*20,0])
+        sphere(1.5);
+            translate([sin(k+5)*20,cos(k+5)*20,0])
+        sphere(1.5);}
+}
+}
+module arm(){
+    translate([-10,17,0])
+    rotate([180,0,0])
+limb();}
+
+// EXECUTE
+scale([2,2,2])
+{
+    // feet
+hull(){
+translate([-5,-5,0])
+cylinder(1,2,2);
+translate([0,0,5])
+sphere(5);
+}
+
+hull(){
+translate([5,-5,0])
+cylinder(1,2,2);
+translate([0,0,5])
+sphere(5);
+}
+//body
+translate([0,-1,7])
+sphere(6);
+//head
+translate([0,-2,13])
+sphere(4);
+
+// right eye
+difference(){
+translate([-2,-4,14])
+sphere(2);
+translate([-3,-5,14])
+cylinder(1,1.5,1.5);
+}
+// pupil    
+translate([-2.5,-4.5,14])
+    sphere(1);
+// left eye
+difference(){
+translate([2,-4,14])
+sphere(2);
+translate([3,-5,14])
+cylinder(1,1.5,1.5);
+}
+// pupil
+    translate([2.5,-4.5,14])
+    sphere(1);
+
+// tail
+for(s =[4:-1:1]){
+    hull(){
+        translate([0,1/s,s])
+sphere(s);
+translate([0,s,s*.3])
+sphere(s*.3);}
+}
+
+// crest
+translate([-1,0,15])
+rotate([0,90,0])
+{
+    cylinder(1,1,4);
+translate([0,0,.99])
+cylinder(1,4,1);
+}
+translate([0,0,15])
+rotate([0,90,0])
+    {
+    for(k=[0:20:359]){
+        hull(){
+     sphere(1);
+    translate([sin(k)*5,cos(k)*5,0])
+sphere(.1);
+        }
+    }        
+}
+// Scales
+for(k=[3:2:9]){
+    if(k%2!=0)
+    {
+    translate([0,-1,k])
+    rotate([0,0,k])
+    ring();
+    }
+    else
+    {
+    translate([0,-1,k])
+    rotate([0,0,k*8])
+    ring();
+    }
+}
+
+translate([-3,-3,10])
+rotate([40,0,180])
+scale([.5,.5,.5])
+arm();
+translate([3,-3,10])
+rotate([140,0,0])
+scale([.5,.5,.5])
+arm();
+}
+

@@ -1,0 +1,249 @@
+// Eric Buijs "Winter Tux" - my attempt.
+// https://fosstodon.org/@ericbuijs/105491627828320387 
+// version00 and v01 - 2021-01-16
+// version02 adding scarf - 2021-01-16
+// version03 detail mods of scarf, hat, toes and scale - 2021-01-17
+// version04 colors added (no impact on printing) - 2021-01-17
+
+// CODE LICENSE SECTION
+// GPL Statement
+
+// Copyright Algot Runeman, 2021
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// VARIABLES SECTION
+$fa=2; $fs=1; // smoothing
+os1=9; // scarf fringe offsets
+os2=9.5; // scarf fringe offsets
+
+// MODULES SECTION
+// foot
+module toe(){
+    translate([0,0,2])
+    sphere(2);
+    difference(){
+hull(){
+scale([1,1,1])
+sphere(2);
+translate([-0,-5,0])
+scale([1,1,1])
+sphere(2);
+}
+translate([-2,-7,-2])
+cube([4,10,2]);
+}}
+
+module foot(){
+ toe();
+rotate([0,0,30])
+toe();
+rotate([0,0,-30])
+toe();
+}
+
+// wing
+module wing(){
+    hull(){
+        sphere(3);
+        translate([0,0,8])
+        sphere(2);
+    }
+    }
+    
+ // beak
+module beak(){
+    translate([0,0,2])
+    sphere(2);
+    difference(){
+hull(){
+scale([1,1,.75])
+sphere(4);
+translate([-0,-5,0])
+scale([1,1,.5])
+sphere(2);
+}
+
+}}
+
+// to allow for easier scaling the initial execution steps
+// were converted to a full figurine module.
+module wintertux(){
+// right foot
+translate([-5,0,0])
+rotate([0,0,-20])
+color("yellow")
+foot();
+// left foot
+translate([5,0,0])
+rotate([0,0,20])
+color("yellow")
+foot();
+// Body
+color("gray")
+hull(){
+translate([0,0,5])
+scale([1,1,.5])
+sphere(10);
+translate([0,0,20])
+sphere(7);
+}
+// right wing
+translate([-7,0,15])
+rotate([0,200,0])
+scale([.8,1.5,1])
+color("gray")
+wing();
+// left wing
+translate([6.5,0,15])
+rotate([0,160,0])
+scale([.8,1.5,1])
+color("gray")
+wing();
+
+// head
+color("gray")
+hull(){
+translate([0,0,25])
+sphere(8.5);
+translate([0,0,28])
+sphere(7);
+}
+// right eye
+difference(){
+translate([-3,-6,26])
+color("white")
+sphere(3);
+    translate([-3.8,-9,26])
+   sphere(1.5);
+}
+    translate([-3.8,-8,26])
+color("blue")
+    sphere(1.1);
+// left eye
+difference(){
+translate([3,-6,26])
+color("white")
+sphere(3);
+    translate([3.8,-9,26])
+    sphere(1.5);
+}
+    translate([3.8,-8,26])
+    color("blue")
+    sphere(1.1);
+// beak
+translate([0,-6,24])
+color("yellow")
+beak();
+
+// hat rim improved in v02
+color("white")
+hull(){
+translate([0,0,30])
+scale([1,1,.25])
+sphere(8.5);
+translate([0,0,32])
+scale([1,1,.25])
+sphere(7.8);
+}
+// hat proper    
+color("red")
+hull(){
+    translate([0,0,30])
+    sphere(7.5);
+translate([3,0,39])
+scale([1,3,1])
+sphere(2);
+   }
+   // hat fold
+   color("red")
+   hull(){
+     translate([3,0,39])
+scale([1,3,1])
+sphere(2);
+     translate([8,0,34])
+     sphere(2);  
+   }
+   // pompom
+   color("white")
+   translate([10,0,33])
+   sphere(2.7);
+   
+// scarf added in v02
+color("red")
+hull(){
+translate([0,0,17])
+scale([1,1,.1])
+sphere(8.7);
+translate([0,0,20])
+scale([1,1,.2])
+sphere(8.2);
+}
+// scarf hanging
+color("red")
+hull(){
+translate([0,-8,20])
+sphere(1);
+translate([3,-7,20])
+sphere(1);
+translate([3,-9,9])
+sphere(1);
+translate([-1,-9,11])
+sphere(1);
+}
+//scarf fringe
+//os1=9;
+//os2=9.5;
+module fringe(){
+hull(){
+    translate([-1,-os1,10])
+sphere(.5);
+translate([-1,-os2,8])
+sphere(.5);
+}
+hull(){
+    translate([0,-os1,10])
+sphere(.5);
+translate([0,-os2,7.5])
+sphere(.5);
+}
+hull(){
+    translate([1,-os1,10])
+sphere(.5);
+translate([1,-os2,7])
+sphere(.5);
+}
+hull(){
+    translate([2,-os1,10])
+sphere(.5);
+translate([2,-os2,6.5])
+sphere(.5);
+}
+hull(){
+    translate([3,-os1,10])
+sphere(.5);
+translate([3,-os2,6])
+sphere(.5);
+}
+} // end fringe module
+color("white")
+fringe();
+// tail
+color("gray")
+   hull(){
+       translate([0,9,5])
+       scale([5,1,1])
+       sphere(1);
+       translate([0,10,1])
+       scale([4,1,1])
+       sphere(1);
+   }
+   } // end wintertux()
+   
+   // EXECUTION SECTION
+   
+   scale([2,2,2])
+   wintertux();

@@ -1,0 +1,78 @@
+// Steam Engine - Passenger Car
+// version00 - 2018-01-13
+
+// Open Box Design
+// Will simply sit on a flatcar base
+
+translate([0,0,0])
+cube([145,60,2]);
+module roof(){
+    // includes far end
+difference(){
+scale([1,3,1])
+cylinder(125,10,10);
+    translate([-3,0,2])
+    scale([1.2,2.6,1])
+    cylinder(121,10,10);
+    translate([-40,-13,-1])
+cube([40,25,2]);
+}
+difference(){
+translate([-40,-30,0])
+cube([40,60,2]);
+    translate([-40,-13,-1])
+cube([40,25,2]);
+}
+}
+rotate([0,-90,0])
+translate([40,30,-135])
+roof();
+// far door
+difference(){
+translate([133,17,2])
+cube([3,25,40]);
+    translate([134,22,25])
+    cube([5,15,15,]);
+}
+//knob
+translate([137,39,22])
+    sphere(2);
+difference(){
+// near end
+translate([10,0,0])
+cube([2,60,40]);
+////door
+//translate([8,17,2])
+//cube([3,25,40]);
+}
+//door
+difference(){
+translate([9,17,2])
+cube([3,25,40]);
+    translate([9,22,25])
+    cube([5,15,15,]);
+}
+//knob
+translate([8,19,22])
+    sphere(2);
+// side
+module side(){
+difference(){
+translate([10,0,0])
+cube([125,2,40]);
+for(k=[15:15:145]){
+translate([k,0,18])
+    cube([10,1,20]);
+}
+translate([145/2,1,10])
+rotate([90,0,0])
+linear_extrude(2)
+text("Denver & Rio Grande Western", size=6, halign="center");
+}
+}
+// near side
+side();
+// far side
+translate([145,60,0])
+rotate([0,0,180])
+side();

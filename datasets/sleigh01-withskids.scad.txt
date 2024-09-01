@@ -1,0 +1,88 @@
+// Sleigh box and skids
+// version00 - 2017-10-19
+// version01 -- add the skids in print position
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// viewpoint settings
+$vpt=[22.59,41.71,11.3];
+$vpr=[75.40,0,87.30];
+$vpd=192;
+// CONTROL VARIABLES
+$fn=30;
+len=50;
+wid=30;
+ht=2;
+
+// MODULES
+use<sleigh01-skid-right.scad>
+use<sleigh01-skid-left.scad>
+module box(){
+// bottom
+cube([wid,len,ht]);
+
+// back
+translate([0,2,1])
+rotate([100,0,0])
+linear_extrude(2){
+polygon(points=[[0,0],[wid,0],[wid+3,wid*.6],[-3,wid*.6],[-10,len],[0,0]], paths=[[0,1,2,3,0]], convexity=10);}
+// front
+translate([0,len,1])
+rotate([80,0,0])
+linear_extrude(2){
+polygon(points=[[0,0],[wid,0],[wid+2.3,wid/2],[-2.3,wid/2],[-10,len],[0,0]], paths=[[0,1,2,3,0]], convexity=10);}
+// left side
+translate([2,0,0])
+rotate([0,262,0])
+linear_extrude(2){
+polygon(points=[[0,0],[wid*.50,-2],[wid/2,len+2],[wid/2,len+2],[0,len],[0,0]], paths=[[0,1,2,3,4,5,0]], convexity=10); }
+// right side
+translate([wid,0,0])
+rotate([0,278,0])
+linear_extrude(2){
+polygon(points=[[0,0],[wid/2,-2],[wid/2,len+2],[wid/2,len+2],[0,len],[0,0]], paths=[[0,1,2,3,4,5,0]], convexity=10); 
+} 
+}// end module box
+
+difference(){
+box();
+    // stepin cutout
+translate([-5,len*.74,wid/2])
+    rotate([0,90,0])
+    scale([1.2,2,1])
+    cylinder(wid*1.5,wid*.20,wid*.20);
+} // end difference
+
+// rear curve deoration
+translate([wid*.5,-3,wid*.6])
+rotate([0,80,90])
+scale([1,3.6,1])
+cylinder(2,5,5);
+
+// POSITION SKID IMPORTS
+translate([33,0,2])
+rotate([180,0,90])
+
+skid_l();
+translate([-3,0,0])
+rotate([0,0,90])
+skid_r();
+
+
+//// FOR SHOW ONLY
+//// skid for visual test only
+//// for print, do them separately from box
+//// not enough room on print surface
+//// and this view has them below the print surface!
+//translate([25,0,-16])
+//rotate([86,0,90])
+//skid_r();
+//translate([3,0,-16.5])
+//rotate([95,0,90])
+//skid_l();
+

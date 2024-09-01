@@ -1,0 +1,136 @@
+// Tux
+
+// version01 - 2017-06-01 thickened beak base, tweak foot
+// version00 - 2017-06-01
+
+// VARIABLES
+$fn=45;
+
+// foot
+module foot(){
+hull(){
+    translate([0,-1.8,-5])
+    sphere(5);
+resize(newsize=[10,10,7])
+sphere(2);
+translate([0,14,0])
+resize(newsize=[12,15,5])
+sphere(2);
+}
+rotate([0,0,20])
+hull(){
+resize(newsize=[10,10,5])
+sphere(2);
+translate([0,14,0])
+resize(newsize=[12,15,5])
+sphere(2);
+}
+rotate([0,0,-20])
+hull(){
+resize(newsize=[10,10,5])
+sphere(2);
+translate([0,14,0])
+resize(newsize=[12,15,5])
+sphere(2);
+}
+}
+
+// body
+difference(){
+hull(){
+    translate([0,0,15])
+    resize(newsize=[40,35,40])
+    sphere(20, center=true);
+    //neck
+    translate([0,1.5,40])
+    sphere(12);
+    //back top
+    translate([0,8,35])
+    rotate([20,0,0])
+    resize(newsize=[23,15,25])
+    sphere(2);
+    //back bottom
+    translate([0,15,20])
+    rotate([10,0,0])
+    resize(newsize=[15,8,30])
+    sphere(2);
+}
+translate([0,0,-5])
+cube([30,30,10], center=true);
+}
+//tail
+translate([0,16,6])
+sphere(6);
+
+
+// head
+translate([0,1,55])
+rotate([30,0,0])
+resize(newsize=[20,24,23])
+sphere(11);
+// right eye
+translate([-5,-8,55])
+rotate([90,-15,330])
+resize(newsize=[10,12,3])
+sphere(2);
+// pupil
+translate([-5,-8,55])
+sphere(3);
+// left eye
+translate([5,-8,55])
+rotate([90,15,30])
+resize(newsize=[10,12,3])
+sphere(2);
+// pupil
+translate([5,-8,55])
+sphere(3);
+
+
+// beak
+hull(){
+    // tip
+translate([0,-15,50])
+resize(newsize=[8,8,3])
+sphere(2);
+    //chin
+translate([0,0,46])
+resize(newsize=[15,15,13])
+sphere(2);
+    //nose
+translate([0,0,60])
+resize(newsize=[10,10,3])
+sphere(2);
+}
+
+// right foot
+translate([-10,-13,5])
+rotate([110,-30,-55])
+foot();
+// left foot
+translate([10,-13,5])
+rotate([110,30,60])
+foot();
+
+// right arm
+hull(){
+translate([-14,0,30])
+rotate([-20,110,0])
+resize(newsize=[20,15,10])
+sphere(2);
+translate([-13,-10,20])
+rotate([60,70,100])
+resize(newsize=[15,20,7])
+sphere(2);
+}
+
+// left arm
+hull(){
+translate([14,0,30])
+rotate([20,70,0])
+resize(newsize=[20,15,10])
+sphere(2);
+translate([18,-12,20])
+rotate([80,20,30])
+resize(newsize=[10,20,7])
+sphere(2);
+}

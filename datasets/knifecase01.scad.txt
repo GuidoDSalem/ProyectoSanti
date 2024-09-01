@@ -1,0 +1,84 @@
+// Exacto knife tray.
+// Version00 - 2019-02-19
+// Version01 - 2020-11-21 adding full print option, latch relief
+
+// VARIABLES
+
+thk=10;
+
+// MODULES
+
+module base(){
+
+difference(){
+cube([151,27,thk]);
+translate([1,2,1])
+cube([149,10,thk+1]);
+translate([4,13,1])
+cube([70,10,thk+1]);
+translate([76,13,1])
+cube([70,10,thk+1]);
+
+translate([100,-1,-1])
+cube([30,9,thk+2]);
+    //covershaft
+    translate([-1,25,2.5])
+    rotate([0,90,0])
+    cylinder(160,1.5,1.5);
+    // cover catch relief
+    translate([71.5,-3,5])
+    rotate([-16,0,0])
+    cube([7,3,10]);
+    // cover catch at bottom
+    translate([72,-1,-1])
+    cube([6,3,3]);
+} // end difference
+} // end base
+
+// cover
+module top(){
+translate([-2.2,0,0])
+cube([2,27,thk+2]);
+translate([151.5,0,0])
+cube([2,27,thk+2]);
+translate([-2.2,0,thk+.2])
+cube([155,27,2]);
+// latch
+    translate([72.5,-2,thk+.2])
+    cube([5,5,2]);
+    translate([72.5,-2,0])
+    cube([5,1.8,thk+2]);
+    
+} // end top
+module top2(){
+    
+translate([0,0,thk+2])
+rotate([180,0,0])
+difference () {
+    top();
+    //covershaft
+    translate([-3,25,2.5])
+    rotate([0,90,0])
+    cylinder(160,1.5,1.5);
+}
+// latch tip
+translate([77.5,.3,thk+2.05])
+rotate([0,-270,180])
+linear_extrude(5)
+polygon(points=[[0,0],[2,0],[2,2]], paths=[[0,1,2,0]]);
+} //end top2
+
+// EXECUTE
+// My print bed is just too small to fit both pieces at the same time
+// The cover is slightly too long to fit, so it needs to be rotated 45 degrees
+// in order to fit diagonally
+// If your print bed is larger, you can use part=3 to print both together.
+
+part=1;
+if (part==1) base();
+if (part==2) {rotate([0,0,45]) top2();}
+if (part==3) {
+    base();
+    translate([0,60,0])
+    top2();
+}

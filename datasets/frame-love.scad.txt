@@ -1,0 +1,16 @@
+// Love Frame
+// designed to fit inside a standard retail 4x6 inch frame
+// to work like a mat below glass and above photo
+// and to fit on the bed of the Lulzbot Mini printer
+
+
+difference(){
+    translate([-74,-50,0])
+    cube([142.5,100,1]);
+    translate([-64,-40,-.05])
+    cube([122.5,80,1.1]);
+}
+   linear_extrude(1){ translate([-65,-40.5,0])
+text("LOVE", size=20, font="Liberation Sans:style=Bold Italic");}
+
+

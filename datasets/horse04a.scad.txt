@@ -1,0 +1,318 @@
+// Horse
+
+// horse01 and 02 - sihouettes
+// horse03 - 2017-11-25 - basic test
+// horse03b - 2017-11-25 - add tail
+// horse03c - 2017-11-25 - thicker legs + chin/tail support - nose to sphere
+// horse04a - for publication
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// The design is built from a silhouette exported from
+// Inkscape. Silhouette code shown below not used but left in place
+// to allow explanation of code development
+
+// Exported silhouette
+// Module names are of the form poly_<inkscape-path-id>().  As a result,
+// you can associate a polygon in this OpenSCAD program with the corresponding
+// SVG element in the Inkscape document by looking for the XML element with
+// the attribute id="inkscape-path-id".
+
+// fudge value is used to ensure that subtracted solids are a tad taller
+// in the z dimension than the polygon being subtracted from.  This helps
+// keep the resulting .stl file manifold.
+fudge = 0.1;
+
+module poly_path10121(h)
+{
+  scale([25.4/90, -25.4/90, 1]) union()
+  {
+    linear_extrude(height=h)
+      polygon([[23.253937,-64.335914],[46.507874,-78.288276],[63.044012,-87.589851],[85.264450,-95.857912],[90.948750,-96.891426],[97.149800,-105.159487],[100.767074,-108.260012],[101.800588,-103.092475],[99.733561,-96.891426],[105.934611,-96.891426],[110.068649,-105.676251],[112.652425,-100.508700],[109.551900,-94.824399],[115.236200,-80.872037],[117.303212,-78.288276],[113.685938,-72.087226],[119.370224,-58.134850],[124.537775,-48.833275],[120.920486,-39.531700],[109.551900,-36.431175],[105.934611,-40.048464],[104.384349,-45.732750],[93.015762,-53.484062],[88.364975,-54.000826],[83.197438,-56.584587],[68.728312,-33.330650],[62.527262,-24.545825]]);
+  }
+}
+
+module poly_path10123(h)
+{
+  scale([25.4/90, -25.4/90, 1]) union()
+  {
+    linear_extrude(height=h)
+      polygon([[22.737188,-65.369413],[7.234563,-56.584587],[-1.550262,-54.000826],[-20.153412,-55.034325],[-36.172800,-56.584587],[-48.574900,-58.651613],[-57.359726,-61.235374],[-64.594274,-63.819150],[-71.828837,-64.335899],[-89.915237,-57.101351],[-101.283824,-51.933800],[-109.035151,-48.833275],[-112.652425,-42.632225],[-115.236200,-34.880913],[-118.336725,-26.096087],[-118.336725,-21.962064],[-120.403737,-14.210751],[-120.403737,-2.842150],[-120.403737,1.291888],[-123.504262,9.043200],[-120.920486,16.277749],[-124.537775,25.579338],[-120.403737,24.029061],[-122.470749,33.330650],[-119.370224,57.618100],[-116.269699,76.221250],[-118.336725,87.073087],[-113.169174,81.388786],[-109.551900,94.824399],[-111.618912,80.355273],[-108.518387,82.422300],[-108.001637,72.603961],[-106.451375,85.522825],[-106.451375,89.656863],[-102.834101,90.690361],[-100.250325,98.958437],[-100.250325,106.192986],[-87.848226,107.743248],[-84.747701,107.743248],[-87.331462,98.441673],[-96.633036,87.589836],[-95.082774,83.972562],[-96.633036,76.221250],[-95.082774,57.101336],[-93.532511,50.383537],[-91.982249,48.833275],[-86.814712,72.603961],[-83.714187,86.556338],[-82.163925,88.106600],[-76.996388,94.824399],[-76.479624,100.508700],[-69.245061,103.092461],[-62.010513,102.058962],[-62.010513,98.441673],[-65.627787,92.757388],[-73.895863,85.522825],[-72.345601,82.939049],[-78.546651,70.536949],[-79.063400,60.718625],[-78.029887,42.632225],[-74.412613,35.397662],[-67.178050,12.660474],[-64.594274,5.425911],[-63.044012,3.875649],[-59.943487,2.842150],[-53.742437,4.392413],[-30.488500,9.559949],[-13.435613,13.693987],[-0.516749,15.760999],[16.536138,16.277749],[13.952362,32.813886],[15.502625,38.498187],[10.851837,61.235374],[3.100525,87.073087],[8.268062,92.757388],[8.268062,102.058962],[22.220438,103.609225],[20.153412,94.824399],[14.469111,89.140099],[14.469111,80.355273],[18.086400,65.369413],[25.320963,50.383537],[26.354462,63.302386],[24.287450,78.805011],[22.220438,90.690361],[26.354462,95.341149],[29.971751,101.025449],[27.904724,107.743248],[42.890600,108.260012],[38.756561,96.891411],[33.589025,90.690361],[32.038762,78.288261],[34.105774,65.369413],[38.756561,52.450549],[42.373850,37.981438],[45.991124,24.545825],[47.024638,14.727486],[53.225688,10.076699],[61.493749,-3.358900],[62.527262,-25.062589],[59.943487,-34.880913]]);
+  }
+}
+
+module horse(h)
+{
+
+poly_path10121(h);
+poly_path10123(h);
+}
+//////////////////////////////////////////////////////////////////
+// polygons of silhouettes commented out
+//rotate([90,0,0])
+//translate([0,30,0])
+//horse(2);
+//////////////////////////////////////////////////////////////////
+
+// chest and neck
+hull(){
+translate([8,0,35])
+sphere(11.5);
+translate([-20,0,38])
+sphere(8);
+}
+
+//chest support
+translate([8,0,0])
+cylinder(24,2,.2);
+
+// neck ridge
+hull(){
+    // neck
+translate([8,0,35])
+rotate([0,45,0])
+cylinder(20,10,4);
+translate([4,0,44])
+sphere(3);
+translate([25,0,55.5])
+sphere(2);
+}
+// head
+hull(){
+translate([25,-2,51])
+scale([1,.4,.7])
+sphere(7);
+translate([25,2,51])
+scale([1,.4,.7])
+sphere(7);
+}
+// head top
+hull(){
+translate([27,-2,54])
+scale([1,.4,.9])
+sphere(5);
+translate([27,2,54])
+scale([1,.4,.9])
+sphere(5);
+   // nose
+   translate([33,0,42])
+//   rotate([90,0,0])
+//   cylinder(2.5,3,2.8); 
+//   translate([33,0,42])     
+//    cylinder(2.5,2.8,3);
+    sphere(3);
+}
+// nostrils
+translate([34,-.6,42])
+rotate([100,80,0])
+cylinder(2,2.5,2);
+translate([33.5,2.5,42])
+rotate([80,80,0])
+cylinder(2,2,2.5);
+
+// nose support
+translate([33,0,0])
+cylinder(5,5,2);
+translate([33,0,0])
+cylinder(42,2,.6);
+
+
+////////////////////////////
+// support with polygon bridge
+///////////////////////////
+translate([15,0,40])
+rotate([90,0,0])
+linear_extrude(1){
+polygon(points=[[0,5],[18,-1],[15,15]],paths=[[0,1,2,0]], convexity=5);
+}
+
+// eyes
+// left
+translate([30,-3,53])
+sphere(2);
+// right
+translate([30,3,53])
+sphere(2);
+
+// ears
+// left
+translate([27,-2,55])
+rotate([30,0,0])
+cylinder(6,2,.5);
+//right
+translate([27,2,55])
+rotate([-30,20,0])
+cylinder(6,2,.5);
+
+// main body
+hull(){
+translate([-23,-2,37])
+sphere(10);
+    translate([-23,2,37])
+sphere(10);
+    translate([-20,0,44])
+    sphere(5);
+        translate([0,0,40])
+    sphere(5);
+}
+// support rear
+translate([-23,0,0])
+cylinder(32,2,.2);
+
+// tail repeated with shifts to give hair look
+module tail(){
+hull(){
+    translate([-28,0,43])
+    sphere(3);
+translate([-30.5,0,42])
+sphere(3);
+translate([-33,-1,33])
+sphere(2.5);
+}
+hull(){
+translate([-33,-1,33])
+sphere(2.5);
+translate([-33,0,30])
+sphere(2);
+}
+hull(){
+translate([-33,0,30])
+sphere(2);
+
+translate([-33,2,20])
+sphere(1.2);
+}
+hull(){
+    
+translate([-33,2,20])
+sphere(1.1);
+translate([-35,2,14])
+sphere(1);
+}
+}
+tail();
+translate([0,-3,0])
+rotate([-5,0,0])
+tail();
+translate([0,-5,0])
+rotate([-8,0,0])
+tail();
+
+// tail support
+
+translate([-35,1,0])
+cylinder(14,2,.4);
+translate([-35,1,14])
+rotate([0,90,0])
+cylinder(.5,2.5,2.5);
+
+// right front leg
+translate([13,-6,34])
+sphere(4.5);
+translate([9.3,-6,15])
+rotate([0,10,0])
+cylinder(19,2,4.5);
+// knee
+translate([9.6,-6,16])
+sphere(2.4);
+// shin
+translate([7,-6,4])
+rotate([0,12,0])
+cylinder(12,2,2.3);
+// ankle
+translate([7,-6,4])
+sphere(2.5);
+// hoof and foot
+hull(){
+translate([9,-6,0])
+cylinder(2,3,2.5);
+// foot
+translate([9,-6,2])
+rotate([0,-60,0])
+cylinder(3,2,1.5);
+}
+
+// left front leg
+translate([13,6,34])
+sphere(4.5);
+translate([9.3,6,15])
+rotate([0,10,0])
+cylinder(19,2,4.5);
+// knee
+translate([9.6,6,16])
+sphere(2.4);
+// shin
+translate([7,6,4])
+rotate([0,12,0])
+cylinder(12,2.2,2.3);
+// ankle
+translate([7,6,4])
+sphere(2.5);
+// hoof and foot
+hull(){
+translate([10,6,0])
+cylinder(2,3,2.5);
+// foot
+translate([10,6,2])
+rotate([0,-60,0])
+cylinder(3,2,1.5);
+}
+
+// back legs
+// right
+translate([-25,-6,15])
+rotate([0,5,0])
+scale([1.2,.8,1])
+cylinder(22,2,7);
+// knee
+translate([-25,-6,16])
+sphere(2.4);
+// shin
+translate([-23,-6,4])
+rotate([0,-8,0])
+cylinder(12,2,2.5);
+// ankle
+translate([-23,-6,4])
+sphere(2.5);
+// hoof and foot
+hull(){
+translate([-20,-6,0])
+cylinder(2,3,2.5);
+// foot
+translate([-20,-6,2])
+rotate([0,-60,0])
+cylinder(3,2,1.5);
+}
+
+// left rear leg
+translate([-25,6,15])
+rotate([0,5,0])
+scale([1.2,.8,1])
+cylinder(22,2,7);
+// knee
+translate([-25,6,16])
+sphere(2.4);
+// shin
+translate([-23,6,4])
+rotate([0,-8,0])
+cylinder(12,2,2.5);
+// ankle
+translate([-23,6,4])
+sphere(2.5);
+// hoof and foot
+hull(){
+translate([-20,6,0])
+cylinder(2,3,2.5);
+// foot
+translate([-20,6,2])
+rotate([0,-60,0])
+cylinder(3,2,1.5);
+}
+
+
+

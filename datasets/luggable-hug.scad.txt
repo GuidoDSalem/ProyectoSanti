@@ -1,0 +1,113 @@
+// Lugable HUG 
+// inspired by the Pocket Hug from Made with Mud
+// https://folksy.com/items/7598046-Ceramic-Pottery-Hug
+// Algot Runeman 2023-10-24
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+/////////////////////////////////
+// Compile-time Constants
+/////////////////////////////////
+sp=2; // size of corner tip spheres determine letter sizes
+    // All other constants are based on sp value
+    // a value of 2 makes an 80 unit long hug
+    // The loop adds about 10 more
+w=sp*3.33; // width of letter stroke
+thk=sp*2.67; // thickness of the letters
+h=sp*13.33; // letter height 
+lw=sp*11;  // width of each letter
+gap=sp*2.5; // gap between letters
+
+//////////////////////////////
+// EXECUTION SECTION
+//////////////////////////////
+translate([-sp*1.5,h/2,4])
+loop();
+h();
+translate([lw+gap,0,0])
+u();
+translate([lw*2+gap*2,0,0])
+g();
+// second letter sphere connectors
+translate([lw+2,h*.25,thk/2+sp])
+sphere(thk-sp/2);
+translate([lw+2,h*.75,thk/2+sp])
+sphere(thk-sp/2);
+
+// third letter sphere connectors
+translate([lw*2+gap*1.5,h*.25,thk/2+sp])
+sphere(thk-sp/2);
+translate([lw*2+gap*1.5,h*.75,thk/2+sp])
+sphere(thk-sp/2);
+
+/////////////////
+// MODULES
+////////////////
+module corner() { 
+        //makes basic rounded edges easy
+  translate([0,0,sp]) // move up to vertical zero
+  sphere(sp);
+  translate([0,0,thk+sp]) 
+  sphere(sp);
+  }
+ 
+module bar(){
+hull() {
+corner();
+translate([0,h,0])
+corner();
+translate([w,h,0])
+corner();
+translate([w,0,0])
+corner();
+}
+}
+// Letter H
+module h(){
+    bar();
+    translate([w*2.33,0,0])
+    bar();
+    translate([sp,h/2+w/2,0]) // middle of height (centered)
+    rotate([0,0,-90])
+    scale([1,.6,1]) 
+    bar();
+}
+// Letter U
+module u(){
+    translate([0,0,0])
+    bar(); // left bar
+    translate([1,w,0])
+    rotate([0,0,-90])
+    scale([1,.8,1]) 
+    bar();
+    translate([w*2.33,0.0])
+    bar(); // right bar
+}
+// Letter G
+module g() {
+    bar(); // left edge
+    translate([1,w,0])
+    rotate([0,0,-90])
+    scale([1,.8,1])
+    bar(); //bottom 
+    translate([1,h+.2,0])
+    rotate([0,0,-90])
+    scale([1,.8,1])
+    bar(); // top
+    translate([w*2.33,0,0])
+    scale([1,.5,1])
+    bar(); // g hook
+}
+//Loop for string or keyring (fixed size - change if you wish)
+module loop() {
+rotate_extrude(convexity = 10)
+translate([4, 0, 0])
+circle(r = 2, $fn = 100);
+}
+
+
+
+

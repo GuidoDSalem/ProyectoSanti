@@ -1,0 +1,60 @@
+// Tesla Plug Lock
+// SAE J1772 Plug 
+// For Jerry Feldman
+// v00 - 2022-07-09
+// v01 - 2022-07-09 - add cutout detail and Tesla logo
+// v06 - 2022-07-17
+
+// CONSTANTS
+
+ring_out=65/2; // lock ring diameter/2
+ring2in=60/2; // lock ring sleeve diameter/2
+thk=2;  // max thickness for Tesla plug space
+t="V6"; // Version Number in ring1()
+// MODULES
+
+// Tight fitting opening for Tesla side of adapter
+module plugcut2(){ // version 5...tighter v6 tighter still
+    translate([0,0.-.1])
+    linear_extrude(2.2)
+    polygon(points=[[0,-21],[-10,-18],[-19,-11],[-21,0],[-21,10],[-15,16],[0,18],[15,16],[21,10],[21,0],[19,-10],[11,-18]],convexity=10);
+    }
+module ring1(){  // carside ring on Tesla carside
+    difference(){
+        cylinder(thk,ring_out,ring_out);
+        translate([0,0,-.1])
+        plugcut2(); 
+        translate([0,20,1])
+linear_extrude(2) #text(t, font="Liberation Sans", size=8,halign="center");
+    }
+}
+// Form the sleeve for strength
+module ring2(){  // strength added by this sleeve
+    difference(){
+        cylinder(thk*6,ring_out,ring_out);
+        translate([0,0,-.10])
+        cylinder(thk*8,ring2in,ring2in);
+    }
+}
+// Locking cover for the latch of the SAE J1772 plug
+module hook(){
+    linear_extrude(thk*13)
+    polygon(points=[[-16,0],[-15,19],[15,19],[16,0],[11,2],[10,11.5],[-10,11.5],[-11,2]]);
+}
+
+// EXECUTE
+
+ring1();
+ring2();
+difference(){
+translate([0,25,0])  // raise to top of ring
+ hook();
+// Add Tesla Logo to hook lock
+    translate([0,42.1,13])
+    rotate([-90,0,0])
+    linear_extrude(2) import("tesla-t.svg", convexity=10);
+translate([0,21,1])
+// Add version number to inside of ring1()    
+linear_extrude(5) 
+    text(t, font="Liberation Sans", size=8, halign="center");
+}

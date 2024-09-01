@@ -1,0 +1,27 @@
+// bath hook for a soap/shampoo rack to hang over the towel bar in a shower
+// version00 - 2019-03-27 - hook over bar too narrow
+// version01 - 2019-03-27 - good fit.
+// Rotate 90 deg left in Cura and use supports to print for the strongest results
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+translate([0,0,18])
+rotate([0,90,0]){
+cylinder(15,9,9);
+translate([0,0,18])
+scale([1.5,1.8,1])
+sphere(10);
+hull(){
+cylinder(5,9,9);
+    translate([-18,50,0])
+    cube([36,35,5]);
+}
+translate([-18,80,0])
+cube([36,5,45]);
+translate([-18,50,40])
+cube([36,35,5]);
+}

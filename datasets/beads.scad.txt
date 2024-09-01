@@ -1,0 +1,223 @@
+// Beads
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version01 - 2017-04-01 - simplified bead 5
+// version00 - 2017-03-31
+
+// VARIABLES
+$fn=60;
+hole=2;
+
+
+// MODULES
+module bead1(){
+difference(){
+hull(){
+    // base
+    translate([0,0,1]){
+    rotate_extrude(convexity = 10)
+translate([2, 0, 0])
+circle(r = 1);
+    }
+    // center
+        translate([0,0,5]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // top
+        translate([0,0,10]){
+    rotate_extrude(convexity = 10)
+translate([2, 0, 0])
+circle(r = 1);
+    }    
+}
+cylinder(12,hole,hole);
+}
+}
+module bead2(){
+difference(){
+hull(){
+    // base
+    translate([0,0,1]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // center
+        translate([0,0,5]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // top
+        translate([0,0,10]){
+    rotate_extrude(convexity = 10)
+translate([2, 0, 0])
+circle(r = 1);
+    }    
+}
+cylinder(12,hole,hole);
+}
+}
+
+module bead3(){
+difference(){
+hull(){
+    // base
+    translate([0,0,1]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // center
+        translate([0,0,5]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // top
+        translate([0,0,10]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }    
+}
+cylinder(12,hole,hole);
+}
+}
+
+// BEAD 4 SKINNY CENTER (TWO HULLS)
+
+module bead4(){
+
+hull(){
+    // base
+    translate([0,0,1]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }
+    // center
+        translate([0,0,4.5]){
+    rotate_extrude(convexity = 10)
+translate([2, 0, 0])
+circle(r = 1);
+    }}
+    // second overlapping center
+    hull(){
+
+        translate([0,0,5.5]){
+    rotate_extrude(convexity = 10)
+translate([2, 0, 0])
+circle(r = 1);
+    }
+    translate([0,0,10]){
+    rotate_extrude(convexity = 10)
+translate([5, 0, 0])
+circle(r = 1);
+    }    
+}
+}
+
+module bead5b(){
+// BEAD5-01
+// version01 - 2017-04-01 - simplified spiral
+
+for(k=[0:60:360]){
+    rotate([0,0,k])
+linear_extrude(height = 10, center=false, convexity = 10, twist = 360)
+translate([5, 0, 10])
+circle(r = 1);
+}
+difference(){
+    cylinder(10,5,5);
+    cylinder(12,hole,hole);
+}
+}
+// BEAD 5
+module bead5(){
+    for(i=[0:1:160]){
+    rotate([0,0,i])
+    for(k=[0:60:360]){
+      
+    translate([sin(k)*5,cos(k)*5,i*.05+1])
+    sphere(1);
+}}
+
+
+difference(){
+cylinder(10,5,5);
+    cylinder(12,2,2);
+}}
+
+// BEAD 6 CUBE
+module bead6(){
+    hull(){
+    translate([-5,-5,1])
+    sphere(1);
+        translate([5,-5,1])
+        sphere(1);
+        translate([5,5,1])
+        sphere(1);
+        translate([-5,5,1])
+        sphere(1);
+          translate([-5,-5,9])
+    sphere(1);
+        translate([5,-5,9])
+        sphere(1);
+        translate([5,5,9])
+        sphere(1);
+        translate([-5,5,9])
+        sphere(1);
+    }}
+
+// BEAD 7 SPHERE
+    module bead7(){
+    difference(){
+translate([-39,0,5])
+    sphere(6);
+        translate([-39,0,-2])
+        cylinder(2,10,10);
+        translate([-39,0,10])
+        cylinder(2,10,10);
+        translate([-39,0,0])
+        cylinder(12,2,2);
+    }}
+    
+
+// EXECUTION CODE
+// beads positioned to all fit
+    
+bead1();
+//
+translate([13,0,0])
+bead2();
+//    
+translate([26,0,0])
+bead3();
+//
+difference(){
+    translate([39,0,0])
+bead4();
+    translate([39,0,0])
+    cylinder(12,hole,hole);
+}
+//
+translate([-13,0,0])
+bead5b();
+//
+ difference(){
+translate([-26,0,0])
+    bead6();
+     translate([-26,0,0])
+     cylinder(12,hole,hole);
+ }
+//
+bead7();

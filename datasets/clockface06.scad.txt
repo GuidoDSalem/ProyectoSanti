@@ -1,0 +1,38 @@
+// Clock Face - Round
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+// version06 - 2019-01-05 - simplified code using align controls for numbers
+
+
+// VARIABLES
+$fn=30; // circle smoothness
+thk=2.5; //thickness
+rad=50; // face size control
+// clock face is sized to fit my simple support
+fnt=8; // adjust as needed for different radius sizes
+module face(){
+    // it is important to note the start of numbers is at 30 degrees around to 360 so that the numbers go where they should be
+for(i=[30:30:360]){
+    // comment out next two lines to remove marker with .5 horizontal offset of half the marker width
+    translate([sin(i)*rad*.6-.5,cos(i)*rad*.6-1,0])
+    cylinder(thk*1.5,1,1); 
+    
+// using halign="center" and valign="center is important because the default alignment is going to make numbers be out of place
+        { translate([sin(i)*rad*.85,cos(i)*rad*.85,0])
+    linear_extrude(thk*1.5){
+        text(str(i/30), size=fnt, font="Liberation Sans:style=bold", halign="center", valign="center");
+    }}
+    }
+}
+difference(){ 
+cylinder(thk,rad,rad); // round base for face of clock
+    translate([0,0,-.1]) // cut through bottom layer
+    cylinder(thk+1,4,4);} // adjust radius value  for actual clock movement shaft size
+    translate([0,0,thk*.4])
+    face();

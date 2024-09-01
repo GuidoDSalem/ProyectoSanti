@@ -1,0 +1,128 @@
+// Lighthouse - hexagonal light
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00
+// 2018-08-07
+// version01 2018-08-23 - base center removed for easier removal after print
+// version02 - 2018-08-23 - angle walkway and light. add door caps
+// reasonable test scale .2 on Lulzbot Mini
+// .3  prints a 109 mm length version ~4hr print
+
+
+module light(){
+hull(){
+    linear_extrude(2)
+polygon(points=[[0,66.6],[37,2.3],[111,2.3],[148.5,66.6],[111,131],[37,130]], paths=[[0,1,2,3,4,5,0]], convexity=10);
+translate([148/4,131/4,200])
+scale([.5,.5,1])
+    linear_extrude(2)
+polygon(points=[[0,66.6],[37,2.3],[111,2.3],[148.5,66.6],[111,131],[37,130]], paths=[[0,1,2,3,4,5,0]], convexity=10);
+}
+// light
+translate([148/2,131/2,190])
+cylinder(20,39,50);
+translate([148/2,131/2,190])
+cylinder(60,22,30);
+// light roof
+translate([148/2,131/2,235])
+cylinder(15,20,45);
+translate([148/2,131/2,250])
+cylinder(20,45,5);
+}
+// remove interior of the lighthouse
+difference(){
+light();
+    translate([14,12,0])
+scale([.8,.8,.20])
+    light();
+    translate([0,14,0])
+    cube([40,100,70]);
+}
+
+// door on lighthouse
+translate([148/2.5,0,0])
+cube([30,10,50]);
+// door roof peak
+translate([148/2.75,14,49])
+rotate([90,0,0])
+linear_extrude(16){ polygon (points=[[0,0],[40,0],[20,8]], paths=[[0,1,2,0]],convexity=10); }
+translate([148/1.75,-6,25])
+sphere(3); // handle
+
+// attached house with interior removed
+translate([-200,0,0])
+difference(){
+cube([240,120,100]);
+    translate([10,10,0])
+    cube([230,100,30]);
+    translate([10,60,30])
+    rotate([0,90,0])
+    cylinder(230,50,50);
+}
+// door house
+translate([-100,-5,0])
+cube([30,10,50]);
+// door roof peak
+translate([-105.5,.1,49])
+rotate([90,0,0])
+linear_extrude(8){ polygon (points=[[0,0],[40,0],[20,8]], paths=[[0,1,2,0]],convexity=10); }
+translate([-75,-6,25])
+sphere(3);  // handle
+
+module window(){
+    difference(){
+    cube([25,10,40]);
+    translate([2,-1,2])
+    cube([21,2,20]);
+    translate([2,-1,22])
+    cube([21,2,18]);
+}}
+translate([-190,-2,10])
+window();
+translate([-160,-2,10])
+window();
+translate([-130,-2,10])
+window();
+translate([-60,-2,10])
+window();
+translate([-30,-2,10])
+window();
+translate([-0,-2,10])
+window();
+// second floor
+win2=55;
+translate([-190,-2,win2])
+window();
+translate([-160,-2,win2])
+window();
+translate([-130,-2,win2])
+window();
+translate([-60,-2,win2])
+window();
+translate([-30,-2,win2])
+window();
+translate([-0,-2,win2])
+window();
+
+// roof
+translate([-210,0,99])
+rotate([90,0,90])
+linear_extrude(260)
+polygon(points=[[-10,0],[130,0],[65,40]],paths=[[0,1,2,0]],convexity=10);
+// chimney
+translate([-215,52,0])
+cube([20,20,150]);
+translate([-215,40,0])
+// add flue width and angle
+cube([20,20,40]);
+translate([-215,40,40])
+// angled section of 2nd flue
+rotate([-45,0,0])
+cube([20,20,20]);
+translate([-217,50,149])
+cube([24,24,10]);

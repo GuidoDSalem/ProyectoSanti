@@ -1,0 +1,236 @@
+// Flat Car Complete
+
+// version00 - 2018-01-13 
+//version02 - 2018-01-16 -tighten truck gap around peg
+// includes wheels and trucks
+// VARIABLES (need work from carriage v3)
+$vpt=[103,72.75,-21.00];
+$vpr=[26.30,00,0.00,0.00];
+$vpd=446;
+len=40;
+cyld=5;
+ht=15;
+thk=30; // width of undercarriage - printed vertically
+$fn=30;
+module support(len2){
+    cylinder(len2,1.5,.5);
+}
+    //peg (truck to car)
+ module peg2(){
+    module peg(){
+        cylinder(ht+1,cyld*.667, cyld*.667);
+    // cylinder(ht+1,4.4,4);
+    translate([0,0,ht])
+    cylinder(cyld/3,cyld*.9,cyld*.7);
+    }
+    difference(){
+        peg();
+        translate([-cyld-1,-cyld*.33,ht*.667])
+        cube([ht-1,cyld*.667,ht]);
+    }
+}
+
+// car truck top
+module top(){
+    color("lightblue",1.0){
+    difference(){
+    cube([len,thk,ht*.667]);
+    translate([len*.5,thk*.5,ht*.2])
+    cylinder(ht,cyld*1.1,cyld*1.1);
+
+    }
+    difference(){
+            translate([len*.5,thk*.5,ht*.55])
+        cylinder(ht*.12,cyld*1.1,cyld*1.1);
+        translate([len*.5,thk*.5,2])
+        cylinder(ht,cyld*.75,cyld);
+    }
+} // end color
+}
+translate([offsetx+2,20,0])
+top();
+translate([offsetx+55,20,0])
+top();
+
+ // split truck
+//front bottom truck
+module truckfront()
+{    difference(){
+translate([offsetx+30,0,0])        
+cube([40,15,thk]);
+// car truck wheels shafts
+translate([offsetx+35,5,0])
+cylinder(35,2.3,2.3);
+translate([offsetx+65,5,0]) // moved two mm forward
+cylinder(35,2.3,2.3);
+    }
+
+    translate([offsetx+50,5,15])
+    rotate([270,90,0])
+    peg2();
+    translate([offsetx+48,20,0])
+    support(12);
+        translate([offsetx+52,20,0])
+    support(12);
+// connection to next car (front)
+hull(){
+
+    translate([offsetx+20,9,15])
+    rotate([90,0,0])
+    cylinder(3,5,5);
+translate([offsetx+30,6,6])
+    cube([2,3,2]);
+    translate([offsetx+30,6,22])
+    cube([2,3,2]);
+}  
+// connecting pin
+translate([offsetx+20,8,15])
+rotate([90,0,0])
+cylinder(8,2.5,2.5);
+}
+// support for connector pin
+translate([offsetx+17,5,0])
+support(14);
+// rear car truck with offset vars
+ // split truck
+module truckback(){
+    difference(){
+translate([offsetx*3.5,0,0])
+//translate([110,0,0])        
+cube([40,15,thk]);
+
+// car truck wheels shafts
+translate([offsetx*3.5+5,5,0])
+cylinder(35,2.3,2.3);
+translate([offsetx*3.5+35,5,0]) // moved two mm forward
+cylinder(35,2.3,2.3);
+    }
+
+    translate([offsetx*4,5,15])
+    rotate([270,90,0])
+    peg2();
+        translate([offsetx*4-2,20,0])
+    support(12);
+        translate([offsetx*4+2,20,0])
+    support(12);
+// connection to next car (rear)
+    difference(){
+hull(){
+
+    translate([offsetx*3.5+50,5,15])
+    rotate([90,0,0])
+cylinder(3,5,5);
+translate([offsetx*4+20,2,6])
+    cube([2,3,2]);
+    translate([offsetx*4+20,2,22])
+    cube([2,3,2]);
+}    
+        translate([offsetx*3.5+50,6,15])
+    rotate([90,0,0])
+cylinder(4,2.9,2.9);
+}
+ }
+ color("blue",1.0){ translate([-17,3,0]) truckback();}
+ color("blue",1.0){ translate([-3,3,0]) truckfront();}
+////----------------------------
+//// FLATCAR PROPER
+////----------------------------
+carwid=60;
+carlen=145;
+offsetx=40;
+offsety=51;
+ color("lightgreen",1.0){
+translate([offsetx,offsety,0])
+cube([carlen,carwid,2]);
+ }
+ // side decorations (strength)
+    // near
+ color("lightgreen",1.0){
+    hull(){
+    translate([carlen*.5-carlen*.2+offsetx,carwid*.5-carwid*.45+offsety,5])
+    cube([carlen*.4,2,5]);
+    translate([carlen*.5-carlen*.4+offsetx,carwid*.5-carwid*.45+offsety,0])
+    cube([carlen*.8,2,5]);
+        }
+    // far
+    hull(){
+    translate([carlen*.5-carlen*.2+offsetx,carwid*.5+carwid*.4+offsety,5])
+    cube([carlen*.4,2,5]);
+    translate([carlen*.5-carlen*.4+offsetx,carwid*.5+carwid*.4+offsety,0])
+    cube([carlen*.8,2,5]);
+        }
+    }
+// mount
+// Brackets
+    color("brown",1.0)
+    {
+translate([offsetx,carwid*.5-17.5+offsety,0])
+cube([5,2,4]);
+translate([offsetx,carwid*.5-17.5+offsety,0])
+//translate([carlen*.5-carlen*.4-2.5+offsetx,carwid*.5-17.5+offsety,0])
+cube([2,5,4]);
+translate([offsetx,carwid*.5+15.5+offsety,0])
+cube([5,2,4]);
+translate([offsetx,carwid*.5+12.5+offsety,0])
+cube([2,5,4]);
+
+translate([carlen-5+offsetx,carwid*.5-17.5+offsety,0])
+cube([5,2,4]);
+translate([carlen-2+offsetx,carwid*.5-17.5+offsety,0])
+cube([2,5,4]);
+
+translate([carlen-5+offsetx,carwid*.5+15.5+offsety,0])
+cube([5,2,4]);
+translate([carlen-2+offsetx,carwid*.5+12.5+offsety,0])
+cube([2,5,4]);
+    }
+
+//// test undercarriage block
+//// ----------------------------------------------------------
+//color("blue",1.0)
+//{
+//translate([carlen*.5-carlen*.4+offsetx,carwid*.5-15+offsety,0])
+//cube([40,30,5]);
+//translate([carlen*.4+37.5+offsetx,carwid*.5-15+offsety,0])
+//cube([40,30,5]);
+//    }
+//// ----------------------------------------------------------
+
+
+// carwheels
+module wheelset(){        
+// carriage wheel
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+cylinder(42,2,2);}
+
+// offside carriage wheel
+difference(){
+translate([24,0,0])
+{
+cylinder(5,10,10);
+    translate([0,0,3])
+    cylinder(1,10,12);
+    translate([0,0,4])
+    cylinder(1,12,12);
+}
+translate([24,0,0])
+cylinder(42,2.15,2.15);}
+}
+color("red",1.0){
+// wheels1
+translate([offsetx+12,offsety*2+21,0])
+wheelset();
+translate([offsetx+60,offsety*2+21,0])
+wheelset();
+
+// wheels2
+translate([offsetx+108,offsety*2+21,0])
+wheelset();
+translate([offsetx+108,offsety-13,0])
+wheelset();
+}

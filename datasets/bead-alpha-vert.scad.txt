@@ -1,0 +1,106 @@
+// ALPHABET CUBE BEAD VERTICAL
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version02 - 2017-04-01 - adjust for letter I
+// version01 - 2017-04-01 - first run
+
+// VARIABLES
+// change the letter to the one your choice in variable "ltr"
+// note that letter "I" needs horizontal adjustment for centering accomplished with "if-else"
+// a few other letters aren't quite on center either
+// Hebrew and other non-latin languages available via unicode though you may need to specify a different font. The built-in Liberation Sans on my install did not work.
+// ltr="\u05d0"; // works for "alef" using Arial for me
+
+
+ltr="A";
+$fn=60;
+hole=2;
+// MODULE
+
+// bead cube
+module bead6(){
+    hull(){
+    translate([-5,-5,1])
+    sphere(1);
+        translate([5,-5,1])
+        sphere(1);
+        translate([5,5,1])
+        sphere(1);
+        translate([-5,5,1])
+        sphere(1);
+          translate([-5,-5,10])
+    sphere(1);
+        translate([5,-5,10])
+        sphere(1);
+        translate([5,5,10])
+        sphere(1);
+        translate([-5,5,10])
+        sphere(1);
+    }}
+    
+    // EXECUTION CODE
+    // make through hole
+    difference(){
+    bead6();
+        cylinder(12,hole,hole);
+    }
+    // add the letter to four faces
+        // front
+        if (ltr=="I"){
+    translate([-1,-6,3])
+    rotate([90,0,0])
+    linear_extrude(1)
+    text(ltr, size=5, font="Liberation Serif");
+    }
+    else{
+    translate([-2.5,-6,3])
+    rotate([90,0,0])
+    linear_extrude(1)
+    text(ltr, size=5, font="Arial"); 
+    }
+    
+        // right side
+            if (ltr=="I"){
+    translate([6,-1,3])
+    rotate([90,0,90])
+    linear_extrude(1)
+    text(ltr, size=5, font="Liberation Serif");
+    }
+    else{
+      translate([6,-2.5,3])
+    rotate([90,0,90])
+    linear_extrude(1)
+    text(ltr, size=5, font="Arial"); 
+    }
+    
+    // back side
+            if (ltr=="I"){
+    translate([1,6,3])
+    rotate([90,0,180])
+    linear_extrude(1)
+    text(ltr, size=5, font="Liberation Serif");
+    }
+    else{
+      translate([2.5,6,3])
+    rotate([90,0,180])
+    linear_extrude(1)
+    text(ltr, size=5, font="Arial"); 
+    }
+    // left side
+            if (ltr=="I"){
+    translate([-6,1,3])
+    rotate([90,0,270])
+    linear_extrude(1)
+    text(ltr, size=5, font="Liberation Serif");
+    }
+    else{
+      translate([-6,2.5,3])
+    rotate([90,0,270])
+    linear_extrude(1)
+    text(ltr, size=5, font="Arial"); 
+    }

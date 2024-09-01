@@ -1,0 +1,433 @@
+// Sea Captain 
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version03 - 2017-06-06 - cheeks added, hands adjusted
+// version02 - 2017-06-06 - face details
+// version01 - 2017-06-04 - made taller
+// version00 - 2017-06-03 - inspired by desk lamp at Brown's Wharf, Boothbay Harbor Maine (USA)
+
+// VARIABLES
+// $vpt=[0,0,0]; // default if not used
+$vpt=[0,0,60]; // adjust viewport to see uppper sections by adding to z value.
+$fn=30;
+k=0; // used to iterate in several loops
+
+// MODULES
+// hand
+module hand(){
+module finger(){
+hull(){
+    sphere(2);
+    translate([0,7,0]) // change y from 8 to 7
+    sphere(1.8);
+}
+hull(){
+    translate([0,7,0]) // change y from 8 to 7
+    sphere(1.8);
+    translate([0,12,-4])
+    sphere(1.5);
+}
+}
+finger();
+translate([2,0,0])
+finger();
+translate([4,0,0])
+finger();
+translate([5.7,0,0])
+scale([1,.8,.8])
+finger();
+
+// palm
+hull(){
+    sphere(2.3);
+    translate([6,0,0])
+    sphere(1.7);
+    translate([1,-7,0])
+    sphere(2.3);
+    translate([5,-7,0])
+    sphere(2.3);
+}
+
+// thumb
+hull(){
+translate([1,-7,-.2])
+sphere(2.4);
+translate([-4,-2,0])
+sphere(1.8);
+}
+hull(){
+    translate([-4,-2,0])
+    sphere(1.8);
+    translate([-2,4,-1])
+    sphere(1.5);
+}
+}
+//module hand(){
+//module finger(){
+//hull(){
+//    sphere(2);
+//    translate([0,7,0])
+//    sphere(1.8);
+//}
+//hull(){
+//    translate([0,7,0])
+//    sphere(1.8);
+//    translate([0,12,-4])
+//    sphere(1.5);
+//}
+//}
+//finger();
+//translate([2,0,0])
+//finger();
+//translate([4,0,0])
+//finger();
+//translate([6,0,0])
+//scale([1,.8,.8])  // make pinky smaller
+//finger();
+//
+//// palm
+//hull(){
+//    sphere(2.3);
+//    translate([6,0,0])
+//    sphere(1.7);
+//    translate([1,-7,0])
+//    sphere(2.3);
+//    translate([5,-7,0])
+//    sphere(2.3);
+//}
+//
+//// thumb
+//hull(){
+//translate([1,-7,0])
+//sphere(2.3);
+//translate([-4,-2,0])
+//sphere(1.8);
+//}
+//hull(){
+//    translate([-4,-2,0])
+//    sphere(1.8);
+//    translate([-2,4,-1])
+//    sphere(1.5);
+//}
+//}
+
+module rope(){
+    for(k=[-0:5:360]){
+    translate([cos(k)*20,sin(k)*15,0])
+    sphere(2);
+}
+translate([-1,0,-2])
+for(k=[0:5:360]){
+    translate([cos(k)*17,sin(k)*14,0])
+    sphere(2);
+}
+translate([-1,0,2])
+for(k=[0:5:360]){
+    translate([cos(k)*17,sin(k)*14,0])
+    sphere(2);
+}
+translate([-1,0,4])
+for(k=[0:5:360]){
+    translate([cos(k)*15,sin(k)*13,0])
+    sphere(2);
+}
+translate([-1,0,4.5])
+for(k=[0:5:360]){
+    translate([cos(k)*12,sin(k)*10,0])
+    sphere(2);
+}
+
+for(k=[180:5:270]){
+    translate([-2,0,(7*k/150)-5])
+    translate([cos(k)*10,sin(k)*8,0])
+    sphere(2);
+}
+} // end rope module
+
+// boot
+module boot(){
+// sole
+hull(){
+cylinder(2,6.2,6.1);
+translate([0,12,0])
+cylinder(2,6,5.7);
+}
+// toe plus
+difference(){
+for (k=[0:1:12]){
+
+    translate([0,k,3])
+    resize(newsize=[11,11,10+k*.4])
+    //resize(newsize=[11,11,10+k/10])
+    sphere(2);
+    //sphere(5.8-k/10);
+}
+translate([-5,-5,-5])
+cube([10,23,5]);
+}
+// heel and leg
+translate([0,12,2])
+cylinder(36,5.5,7);
+} // end boot module
+
+module body(){
+// slicker
+hull(){
+translate([0,10,15])
+resize(newsize=[45,30,10])
+sphere(2);
+    translate([0,10,90])
+    resize(newsize=[40,20,20])
+    sphere(2);
+}
+// collar
+    translate([0,7,95])
+    rotate([15,0,0])
+    cylinder(8,8,8);
+
+// pocket right
+hull(){
+translate([-18,12,47])
+rotate([0,130,0])
+cylinder(3,6,7);
+    translate([-21.5,5,52])
+    rotate([0,45,0])
+    cube([2,12,3]);
+}
+// pocket left
+hull(){
+translate([17,11,47])
+rotate([0,60,0])
+cylinder(2,7,6);
+    translate([17.5,5,52])
+    rotate([0,45,0])
+    cube([3,12,3]);
+}
+// flap and buttons
+translate([-3,-3.5,15])
+rotate([86,0,0])
+cube([4,83,3]);
+//  buttons
+translate([-1,-.5,90])
+rotate([85,0,0])
+cylinder(2,1.5,1.5);
+translate([-1,-1,80])
+rotate([85,0,0])
+cylinder(2,1.5,1.5);
+translate([-1,-2,70])
+rotate([85,0,0])
+cylinder(2,1.5,1.5);
+translate([-1,-2,60])
+rotate([85,0,0])
+cylinder(2,1.5,1.5);
+translate([-1,-5,40])
+rotate([85,0,0])
+cylinder(2,1.5,1.5);
+//right upper arm
+hull(){
+    translate([-9,11,90])
+    resize(newsize=[25,16,18])
+    sphere(7);
+    translate([-18.3,8,65])
+    sphere(6);
+}
+hull(){
+    translate ([-18,8,64])
+    sphere(6);
+        translate([-10,-5,55])
+    rotate([90,90,0])
+    cylinder(2,5,5);
+    translate([-8,-7,54])
+    sphere(1);
+}
+translate([-9,-9.5,56])
+rotate([75,105,-55])
+scale([.7,.7,.7])
+hand();
+//left upper arm
+hull(){
+    translate([8,10,90])
+    resize(newsize=[25,17,18])
+    sphere(7);
+    translate([20,8,66])
+    sphere(6);
+}
+// left forearm
+hull(){
+    translate ([20,8,66])
+    sphere(6);
+    translate([11,-7,58])
+    rotate([30,70,110])
+    cylinder(2,5,5);
+    translate([9,-6,55])
+    sphere(1);
+}
+// left hand
+translate([8,-10,56])
+rotate([-30,0,55])
+scale([.7,.7,.7])
+mirror([1,1,1]) hand();
+
+// rope coil
+translate([0,-5,40])
+rotate([100,90,0])
+rope();
+
+// neck
+    translate([0,7,90])
+    rotate([6,0,0])
+    cylinder(20,7,6);
+} // end body module
+
+// head
+
+module head(){
+
+    // right cheek
+hull(){
+translate([-5.5,-1.8,112])
+        rotate([0,0,-65])
+    resize(newsize=[7,4,4.5])
+    sphere(2);
+// left cheek
+translate([5.5,-1.8,112])
+        rotate([0,0,65])
+    resize(newsize=[7,4,4.5])    
+    sphere(2);
+}         
+    difference(){
+translate([0,5,115])
+resize(newsize=[20,22,25])
+sphere(10);
+  //  }
+// right eye
+    translate([-4,-4.5,115])
+        resize(newsize=[5,4.5,3])
+    sphere(1.5);
+    translate([4,-4.5,115])
+                resize(newsize=[5,4.5,3])
+    sphere(1.5);
+}
+
+// right eye brow
+translate([-3,-1,117])
+rotate([0,-6,0])
+cylinder(2,5,3.5);
+translate([-3.7,-3.5,115])
+sphere(1.3);
+
+// left eye brow
+translate([3,-1,117])
+rotate([0,6,0])
+cylinder(2,5,3.5);
+translate([4,-3.5,115])
+sphere(1.3);
+
+// nose
+hull(){
+translate([0,-8,112])
+sphere(1);
+translate([0,-5,117])
+sphere(1);
+    translate([-1,-5,112])
+    sphere(1);
+    translate([1,-5,112])
+    sphere(1);
+    translate([0,0,112])
+sphere(2);
+}
+// mustache
+hull(){
+translate([-6,-2,110])
+sphere(1);
+translate([0,-6,110.5])
+sphere(1);    
+translate([6,-2,110])
+    sphere(1);
+}
+// mouth
+hull(){
+translate([-2,-4,109])
+sphere(1);
+translate([0,-4.5,109])
+sphere(1);    
+translate([2,-4,109])
+    sphere(1);
+}
+
+// beard
+hull(){
+    translate([-7.5,2,114])
+    sphere(2);
+    translate([7.5,2,114])
+    sphere(2);
+    translate([-4,-1.5,106.5])
+    sphere(3);
+    translate([4,-1.5,106.5])
+    sphere(3);
+    translate([-5,-1,100])
+    sphere(3);
+    translate([5,-1,100])
+    sphere(3);    
+    translate([-4,-1,99])
+    sphere(3);
+    translate([4,-1,99])
+    sphere(3);    
+    translate([0,-2,98])
+    sphere(3);  
+}
+
+// left ear
+difference(){
+translate([8,5,115])
+rotate([0,90,0])
+cylinder(2,3,4);
+translate([8,3,115])
+    rotate([0,90,0])
+    cylinder(3,3,3);
+}
+// right ear
+difference(){
+translate([-10,5,115])
+rotate([0,90,0])
+cylinder(2,4,3);
+translate([-10,3,115])
+    rotate([0,90,0])
+    cylinder(3,3,3);
+}
+// hat
+
+translate([0,7,119])
+sphere(11);
+hull(){
+translate([0,4,117])
+rotate([-20,0,0])
+cylinder(5,14,9);
+translate([0,10,105])
+    rotate([-55,0,0])
+    cylinder(1,7,12);
+}
+}  // end head module
+
+// MAIN EXECUTION SECTION
+
+translate([-12,0,0])
+rotate([0,0,-10])
+boot();
+translate([15,0,0])
+rotate([0,0,20])
+boot();
+translate([0,0,25])
+body();
+translate([0,0,25])
+//translate([0,0,-90]) // head test alone
+rotate([0,0,20])
+head();
+//translate([-3,8,0])  // for head alone
+//cylinder(15,10,6);  // for head alone

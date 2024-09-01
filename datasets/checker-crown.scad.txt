@@ -1,0 +1,78 @@
+// checker-crown
+// match (glue back to back) with checker-blank
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// READ Polygon troubleshooting and be consistent in making the faces with clockwise sequences of points, always looking at each face from "outside" to avoid 2-manifold errors.
+
+// Crown for Checker
+// restart 2017-03-29 
+
+// VARIABLES
+size=15; // radius of checker
+k=0; // increment for edge notches
+
+// MODULES
+
+module crown(){
+for(k=[5:10:30]){
+for(i=[0:1:90]){
+    translate([sin(i)*k,cos(i)*k,1])
+    rotate([0,90,0])
+    
+    cylinder(5,1,1);
+}
+mirror(){
+    for(i=[0:1:90]){
+    translate([sin(i)*k,cos(i)*k,1])
+    rotate([0,90,0])
+    
+    cylinder(5,1,1);
+}}}
+linear_extrude(2){
+    polygon(points=[ [-2,0], [2,0],[0,35] ], paths=[ [0,2,1,0] ], convexity=10);
+}
+translate([0,35,0])cylinder(2,3,3);
+linear_extrude(2){
+    polygon(points=[ [-2,0], [2,0],[-10,30] ], paths=[ [0,2,1,0] ], convexity=10);
+}
+translate([-10,30,0])cylinder(2,3,3);
+linear_extrude(2){
+    polygon(points=[ [-2,0], [2,0],[10,30] ], paths=[ [0,2,1,0] ], convexity=10);
+}
+translate([-20,25,0])cylinder(2,3,3);
+linear_extrude(2){
+    polygon(points=[ [-2,0], [2,0],[-20,25] ], paths=[ [0,2,1,0] ], convexity=10);
+}
+translate([10,30,0])cylinder(2,3,3);
+linear_extrude(2){
+    polygon(points=[ [-2,0], [2,0],[20,25] ], paths=[ [0,2,1,0] ], convexity=10);
+}
+translate([20,25,0])cylinder(2,3,3);
+translate([-30,-10,0])
+cube([60,10,2]);
+}
+translate([0,-2,0])
+resize(newsize=[15,15,3])
+crown();
+
+// this is a very elongated tetrahedron
+module tetra()       {
+polyhedron( points=[ [0,0,0],[0,size,1.5],[1,size,0],[-1,size,0] ], faces=[[0,1,2],[0,2,3],[0,3,1],[1,3,2] ], convexity=10);}
+
+
+// EXECUTION CODE
+difference(){
+for( k=[0:9:359]){
+    translate([0,0,2])
+    rotate([0,0,k])
+    tetra();
+}
+cylinder(4,size*.8,size*.8);
+}
+cylinder(2,size,size);

@@ -1,0 +1,13 @@
+wid=190; // 142 fits Lulzbot Mini horizontally 190 diag
+ht=wid*0.7042;
+module disks(){
+for(i=[0:25:120]){
+for(k=[0:25:120]){
+    translate([k,i,0])
+    color("blue",1) cylinder(3,wid*0.0563,wid*0.0563);
+}
+}
+}
+
+// makes 25 disks (21 needed of each color)
+ disks();

@@ -1,0 +1,49 @@
+// Bookend - GNU logo
+// version02 - 2018-11-17 - GNU Logo
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+use<gnu3.scad>
+// The GNU logo as an "imported" file
+// This file must be found in the same folder as the bookend file.
+
+wid=90;
+depth=120;
+thk=3;
+
+// Outer base slab (thicker than inner base slab
+hull(){
+    translate([wid/2,5,0])
+    cylinder(thk,5,5);
+    translate([wid/2,115,0])
+    cylinder(thk,5,5);
+    cube([wid/2,depth,thk]);
+}
+// Flat bottom of the inner bookend
+mirror(){
+    hull(){
+    translate([wid,5,0])
+    cylinder(1,5,5);
+    translate([wid,115,0])
+    cylinder(1,5,5);
+    cube([wid,depth,1]);
+}}
+// Upright slab of bookmark
+rotate([0,-90,0])
+hull(){
+    translate([wid,5,0])
+    cylinder(thk,5,5);
+    translate([wid,115,0])
+    cylinder(thk,5,5);
+    cube([wid,depth,thk]);
+}
+
+rotate([90,0,90])
+translate([wid*.66,depth/2.3,0])
+scale([1,1,1])
+gnu(2); // this is the logo module imported earlier

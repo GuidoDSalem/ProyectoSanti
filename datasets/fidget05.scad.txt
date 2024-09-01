@@ -1,0 +1,68 @@
+// Fidget 
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - fidget00 too tight at button base
+// version01 - 2017-08-31
+// version02 - 2017-08-31 recenter/resize button parts
+// version03 - 2017-08-31 change button to sphere
+// version04 - 2017-08-31 cube on axle for Ann
+// version05 - 2017-08-31 add some surface features to cube.
+
+$fn=30;
+size=20;
+$vpt=([0,0,20]);
+// base module
+module base(){
+translate([2,2,2])
+sphere(2);
+translate([2,size,2])
+sphere(2);
+translate([size,size,2])
+sphere(2);
+translate([size,2,2])
+    sphere(2);
+}
+//hull(){base();}
+module cube(){
+
+hull(){
+base();
+translate([0,0,size])
+base();
+}
+}
+
+difference(){
+cube();
+translate([-2,size/2+1,size/2+2])
+    rotate([0,90,0])
+cylinder(size+6,size/6,size/6);
+    // side features
+    // front
+translate([size/2+1,-1,size/2+2])
+  resize(newsize=[size,4,size/2+7])
+    sphere(2);
+    // back
+    translate([size/2+1,size+3,size/2+2])
+  resize(newsize=[size,4,size/2+7])
+    sphere(2);
+}
+
+// axle
+translate([-5,size/2+1,size/2+2])
+rotate([0,90,0])
+cylinder(size+12,size/7,size/7);
+// left wheel
+translate([-5,size/2+1,size/2+2])
+rotate([0,90,0])
+cylinder(4,size/2+2,size/2+2);
+// right wheel
+translate([size+3,size/2+1,size/2+2])
+rotate([0,90,0])
+cylinder(4,size/2+2,size/2+2);
+

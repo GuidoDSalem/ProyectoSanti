@@ -1,0 +1,214 @@
+// Horse or Ox Drawn Wagon
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-02-10 - basic beginning
+// version01 - 2018-02-17 - print OR mockup OR parts view
+
+$fn=30;
+len=90;  // 90 fits my printer for one-shot print
+wid=len*.4;
+diam=len*.4;
+module box(){
+difference() {
+cube([len,wid,len*.375]);
+translate([len*.03,wid*.04,2])
+    scale([.94,.9,1])
+    cube([len,wid,len*.375]);
+
+
+    // hole for front wheel knob
+    translate([len*.1,wid*.5,-.1])
+    cylinder(2.5,4.5,4.5);
+}
+    
+    // footrest
+    translate([-len*.095,wid,len*.2])
+rotate([90,0,0])
+    linear_extrude(wid){
+            polygon(points=[[0,0],[len*.1,0],[len*.1,-len*.1]], paths=[[0,1,2,0]], convexity=3);}
+}
+
+// PEG
+module pegin(){
+    cylinder(4,3.8,3.8);
+    translate([0,0,3.5])
+    cylinder(2,4.3,4);
+}
+module peg(){
+
+difference(){
+pegin();
+    translate([-1.5,-5,1])
+    cube([3,10,5]);
+}
+}
+//crossbar front
+module crossbar(){
+difference(){
+cube([len*.15,wid*1.2,7]);
+    translate([len*.055,-wid*.7,2])
+    cube([3.5,wid*2,3.5]);
+}
+}
+module seat(){
+    cube([len*.2,wid,2]);
+    hull(){
+    cube([2,wid,2]);
+    translate([0,5,5])
+    rotate([0,90,0])
+    cylinder(2,5,5);   
+    translate([0,wid-5,5])
+    rotate([0,90,0])
+    cylinder(2,5,5);   
+    }
+        // bench side 1
+    hull(){
+        translate([len*.2-3,0,3])
+        rotate([-90,0,0])
+        cylinder(2,3,3);
+        cube([2,2,7]);
+    }
+            // bench side 2
+    hull(){
+        translate([len*.2-3,wid-2,3])
+        rotate([-90,0,0])
+        cylinder(2,3,3);
+        translate([0,wid-2,0])
+        cube([2,2,7]);
+    }
+}
+module wheel(){
+    rotate_extrude(convexity=10)
+    translate([diam/2, 0, 0])
+square(size=[2,6],center=true);
+    // hub
+    translate([0,0,-3])
+    cylinder(3,4,4);
+    cylinder(5,4,3);
+    // spokes
+    for(k=[0:45:360]){
+        rotate([-90,0,k])
+        cylinder(diam,1.5,1.5,center=true);
+        // spoke print help
+        translate([0,0,-2])
+        rotate([0,0,k])
+        cube([diam,1,2],center=true);
+    }
+}
+// combine wheel components
+module wheel2(){
+difference(){
+    wheel();
+            translate([0,0,-3.1])
+        cylinder(10,1.6,1.6);
+        // flare the hole
+        translate([0,0,-3.1])
+        cylinder(1,2.3,1.6);
+}
+}
+// wagon print
+module print(){
+    box();    
+        translate([len*1.35,wid,0])
+    rotate([0,0,180])
+    seat();
+    // wheel print positions
+    ht=3;
+    translate([diam/2,-wid/2-2,ht])
+    wheel2();
+        translate([diam*1.5+3,-wid/2-2,ht])
+   wheel2();
+        translate([diam/2,wid*1.6,ht])
+    wheel2();
+        translate([diam*1.5+3,wid*1.6,ht])
+    wheel2();
+    // rear axle
+    translate([-len*.2,0,0])
+    crossbar();
+    // front axle
+    translate([len*1.35,-wid,0])
+    rotate([0,0,90])
+    crossbar();
+    translate([len*1.1,-wid*.83,6])
+    peg();
+    translate([len*1.085,-wid*.9,0])
+    cube([3,len*1.1,3]);
+}
+// wagon Mockup
+module mockup(){
+    box();
+    translate([len*.2,wid,len*.374])
+    rotate([0,0,180])
+    seat();
+translate([len*.01,-wid*.1,-7])
+crossbar();
+translate([-len,wid*.5-1.5,-7])
+cube([len*1.1,3,3]);
+translate([len*.8,-wid*.1,-7])
+crossbar();
+
+// nearside wheels
+translate([len*.1,-wid*.15,-3])
+rotate([90,0,0])
+wheel2();
+translate([len*.9,-wid*.15,-3])
+rotate([90,0,0])
+wheel2();
+translate([len*.1,wid*1.15,-3])
+rotate([90,0,180])
+wheel2();
+translate([len*.9,wid*1.15,-3])
+rotate([90,0,180])
+wheel2();
+}
+
+module testparts(){
+//    difference() {
+//cube([len*.2,wid,2]);
+//translate([len*.03,wid*.04,2])
+//    scale([.94,.9,1])
+//    cube([len,wid,len*.375]);
+//    // hole for front wheel knob
+//    translate([len*.1,wid*.5,-.1])
+//    cylinder(2.5,4.4,4.4);
+//
+//}
+//        translate([len*.1,wid*.5,0])
+//        peg();
+    box();    
+//        translate([len*1.35,wid,0])
+//    rotate([0,0,180])
+//    seat();
+    // wheel print positions
+    ht=3;
+    translate([diam/2,-wid/2-2,ht])
+    //wheel2();
+//        translate([diam*1.5+3,-wid/2-2,ht])
+//    tire2();
+//        translate([diam/2,wid*1.6,ht])
+//    tire2();
+//        translate([diam*1.5+3,wid*1.6,ht])
+//    tire2();
+    // rear axle
+//    translate([-len*.2,0,0])
+//    crossbar();
+    // front axle
+    translate([len*1.15,-wid*.45,-3])
+    rotate([0,0,90])
+    crossbar();
+    translate([len*1.1,-wid*.83,6])
+    peg();
+//    translate([len*1.085,-wid*.9,0])
+//    cube([3,len*1.1,3]);
+}
+// EXECUTION SECTION
+// DO ONE ONLY: TESTPARTS PRINT OR MOCKUP
+// print();
+// mockup();
+ testparts();

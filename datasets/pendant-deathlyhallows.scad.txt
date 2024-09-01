@@ -1,0 +1,44 @@
+// Deathly Hallows Pendant
+// Version00 2019-06-16
+// version01 2019-06-17 - simplify 
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// VARIABLES
+$fn=30;
+side=60;
+ht=sqrt((side*side)-(side/2)*(side/2));
+echo(ht);
+thk=2;
+
+difference(){
+linear_extrude(thk)
+polygon(points=[[0,ht],[side/2,0],[-side/2,0]],paths=[[0,1,2,0]], convexity=2);
+    translate([0,side*.06,-.10])
+    scale([.8,.8,1])
+    linear_extrude(thk+.2)
+    polygon(points=[[0,ht],[side/2,0],[-side/2,0]],paths=[[0,1,2,0]], convexity=2);
+}
+translate([-side*.03,0,0])
+cube([side*.06,ht-side*.1,thk]);
+
+difference(){
+translate([0,ht/3,0])
+cylinder(thk,ht*.33,ht*.33);
+    
+    translate([0,ht/3,-.10])
+    scale([.8,.8,1])
+cylinder(thk+.2,ht*.33,ht*.33);
+}
+// pendant loop
+difference(){
+    translate([0,ht*1.05,0])
+    cylinder(thk,side*.1,side*.1);
+    translate([0,ht*1.05,-.10])
+    cylinder(thk+.2,side*.05,side*.05);
+}

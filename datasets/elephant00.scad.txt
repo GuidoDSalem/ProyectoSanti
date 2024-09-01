@@ -1,0 +1,142 @@
+// Elephant
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2017-05-23
+
+$fn=60;
+
+module foot(){
+cylinder(4,5,5);
+    translate([4,-5,2])
+    rotate([270,0,0])
+    cylinder(4,2,2);
+    translate([5,-2,2])
+    rotate([270,0,0])
+    cylinder(4,2,2);
+    translate([4,1,2])
+    rotate([270,0,0])
+    cylinder(4,2,2);
+    }
+
+foot();
+translate([40,0,0])
+    foot();
+    translate([0,20,0])
+    foot();
+    translate([40,20,0])
+    foot();
+    
+    module legr(){
+        hull(){
+        translate([10,0,20])
+        resize(newsize=[15,12,15])
+        sphere(2);
+            translate([-1,0,15])
+            sphere(2);
+            translate([0,0,4])
+            cylinder(2,4.5,4.5);
+        }
+    }
+    
+    module legf(){
+        hull(){
+            translate([40,0,4])
+            sphere(4);
+            translate([38,0,8])
+            sphere(4);
+        }
+        hull(){
+            translate([38,0,8])
+            sphere(4);
+            translate([35,0,24])
+            resize(newsize=[15,5,10])
+            sphere(2);
+        }
+        }
+        
+        
+
+        legf();
+        translate([0,20,0])
+        legf();
+    
+    // rear legs
+    translate([0,0,0])
+    legr(); // right rear
+    translate([0,20,0])
+    legr(); // left rear
+
+    
+    // body
+    hull(){
+         // chest
+    translate([40,10,22])
+    sphere(10);
+        // belly
+    translate([20,10,17])
+    sphere(13); 
+         // back
+    translate([15,10,30])
+    sphere(3);
+        // rump
+    translate([7,10,20])
+    sphere(8);
+    }
+    
+    // neck and head
+    hull(){
+    translate([40,10,23])
+    sphere(7);
+    translate([55,10,30])
+    sphere(9);
+    }
+    // right eye
+    translate([62,6,30])
+    sphere(3);
+    // left eye
+    translate([62,14,30])
+    sphere(3);    
+    // trunk 
+    hull(){
+        translate([58,10,34])
+        sphere(4);
+        translate([70,10,20])
+        sphere(3);
+    }
+    hull(){
+        translate([70,10,20])
+        sphere(3);
+        translate([75,10,24])
+        cylinder(1,2,2);
+        translate([77,10,27])
+        rotate([0,90,0])
+        cylinder(1,2,2);
+    }
+   
+    // ears
+        module ear(){
+        hull(){
+         translate([0,0,0])
+        cylinder(1,7,7);
+            // tip 
+        translate([11,0,0])
+            cylinder(1,1,2);
+            // hook
+            translate([6,5,0])
+            cylinder(1,1,1);
+        }
+            }
+            // right ear
+        translate([55,.4,30])
+            rotate([270,90,20])
+        ear();
+            
+           // left ear
+                    translate([55,18.5,30])
+            rotate([270,90,-20])
+        ear();

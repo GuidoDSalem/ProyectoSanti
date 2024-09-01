@@ -1,0 +1,149 @@
+// Dad's Puzzle
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// cover3 - 2017-07-31 - add sides and revise cover block
+// cover2 - 2017-07-29 - fixed compile error of title
+// cover - 2017-07-29 - added a title cover
+// version05 - 2017-07-26 - final
+// version04 - 2017-07-26 - make base .1 smaller w/h
+// version03 - 2017-07-25 - new method for curved corners.
+// version02 - 2017-07-25 - size tweaks
+// version01 - 2017-07-25
+// https://en.wikipedia.org/wiki/Klotski
+// Lulzbot Mini print at size 25 - do base, top and parts separately
+// Lulzbot Mini can print size 15 base and moving parts at one time, but print the cover separately.
+
+// VARIABLES
+size=25;// tested 10, 15, and 20. - Max size is 25 for  Lulzbot Mini if printing base separately
+horiz=(size*4+8)/2+8;
+
+// MODULES
+
+module cover(){
+
+    cube([size*4.1+8,size*5.1+9,1]);
+    translate([size*2+4.1,size*2+6,1])
+    if (size>19) cube([size*2-2,size-10,8]); else
+    cube([size*2-1,size-5,5]);
+    // sides
+    // left
+    translate([-1,0,0])
+    cube([1,size*5.1+9,5]);
+    // right
+    translate([size*4.1+8,0,0])
+    cube([1,size*5.1+9,5]);
+    // top edge
+    translate([-1,size*5.1+9,0])
+    cube([size*4.1+10,1,5]);
+    // bottom edge
+    translate([-1,-1,0])
+    cube([size*4.1+10,1,5]);
+    }
+
+module base(){
+    // size adjusted to allow slip space
+    cube([size*4.1+8,size*5.1+8,1]);
+    //side down
+    cube([size*4.1+8,4,10]);
+    //side up
+    translate([0,size*5.1+4,0])
+    cube([size*4.1+8,4,10]);
+    //side left
+    cube([4,size*5.1+4,10]);
+    //side right
+    translate([size*4.1+4,0,0,])
+    cube([4,size*5.1+4,10]);
+    }
+
+// moving parts printed with gaps
+module smsq(){
+    hull(){
+   translate([2,2,0])
+    cylinder(5,2,2); 
+       translate([size-2,2,0])
+    cylinder(5,2,2); 
+       translate([2,size-2,0])
+    cylinder(5,2,2); 
+       translate([size-2,size-2,0])
+    cylinder(5,2,2); 
+}}
+// vert rectangle
+module vertrec(){
+        hull(){
+   translate([2,2,0])
+    cylinder(5,2,2); 
+       translate([size-2,2,0])
+    cylinder(5,2,2); 
+       translate([2,size*2-2,0])
+    cylinder(5,2,2); 
+       translate([size-2,size*2-2,0])
+    cylinder(5,2,2); 
+}}
+// horiz rectangle
+module horizrec(){
+        hull(){
+   translate([2,2,0])
+    cylinder(5,2,2); 
+       translate([size*2-2,2,0])
+    cylinder(5,2,2); 
+       translate([size*2-2,size-2,0])
+    cylinder(5,2,2); 
+       translate([2,size-2,0])
+    cylinder(5,2,2); 
+}}
+module bigsq(){
+    hull(){
+   translate([2,2,0])
+    cylinder(5,2,2); 
+       translate([size*2-2,2,0])
+    cylinder(5,2,2); 
+       translate([2,size*2-2,0])
+    cylinder(5,2,2); 
+       translate([size*2-2,size*2-2,0])
+    cylinder(5,2,2); 
+}}
+
+// EXECUTE CODE
+// MOVING PARTS
+bigsq();
+translate([0,-size*3-4,0])
+vertrec();
+translate ([size+1,-size*3-4,0])
+vertrec();
+translate([0,-size-2,0])
+smsq();
+translate([size+.5,-size-2,0])
+smsq();
+translate([size*2+2,size+1,0])
+horizrec();
+translate([size*2+2,0,0])
+horizrec();
+
+translate([size*2+2,-size*2-4,0])
+horizrec();
+translate([size*2+2,-size*3-5,0])
+horizrec();
+
+// BASE/FRAME
+translate([-size*5.1,-size*5/2-size,0])
+base();
+
+// COVER
+translate([-size*5.1,size*2.5,0])
+difference(){
+cover();
+    linear_extrude(.8){    
+    translate([size*1.5,size+20,0])
+    rotate([0,180,180])
+    text("Dad's",font="Liberation Sans");};
+    
+    linear_extrude(.8){  
+    translate([size*1.5,size*3,0])
+    rotate([0,180,180])
+    text("Puzzle",font="Liberation Sans");
+    };
+}

@@ -1,0 +1,71 @@
+// Chess Queen
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version 02c 2016-12-23
+// 2b 2016-12-21 Algot Runeman
+// CC-0 Public Domain Dedication
+// attempt at a basic chess set.
+
+// Very linear programming...Consolidate steps with variables next?
+
+cylinder(1,10,10);
+translate([0,0,1])
+cylinder(1, 9.7,9,7);
+translate([0,0,2])
+cylinder(1,9.4,9.4);
+translate([0,0,3])
+difference(){
+sphere(9);
+    translate([0,0,-9])
+    // remove the section of the base sphere below the x axis
+        cylinder(6,9,9);}
+//cylinder(4,8,5);
+translate([0,0,3])
+cylinder(15,6,6);
+translate([0,0,18])
+cylinder(5,6,9.4);
+translate([0,0,23]) // add flat section
+ cylinder(2,9.4,9.4); // to soften the cone connection
+translate([0,0,25]) // move up from 23        
+cylinder(5,9.4,5);
+translate([0,0,28])
+       cylinder(8,5,4);
+// top section
+//intersection(){
+//    cube([9,5,15],center=true);
+//    cylinder(15,4,4);
+//}
+// queen's head    
+translate([0,0,28])
+cylinder(6,5,8);        
+translate([0,0,38])
+    translate([0,0,-4])
+     cylinder(8,8,6); // main cylinder
+ // add crown
+ //crownbase=42;
+ cb=42;
+ translate([5,0,cb])
+sphere(2);
+ translate([-5,0,cb])
+sphere(2);
+ translate([0,5,cb])
+sphere(2);
+ translate([0,-5,cb])
+sphere(2);
+ // second set of crown 
+ rotate([0,0,45]){
+      translate([5,0,cb])
+ //cube([2,2,4], center=true);
+     sphere(2);
+ translate([-5,0,cb])
+sphere(2);
+ translate([0,5,cb])
+sphere(2);
+ translate([0,-5,cb])
+sphere(2);
+ }

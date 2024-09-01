@@ -1,0 +1,250 @@
+/////////////////////////
+// Lawn Mower //
+////////////////////////
+
+// License
+// Copyright Algot Runeman, 2020
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2020-05-16
+// version01 - 2020-05-17 - wheel display or print option
+// to show wheels in place, display=1.
+// version02 - 2020-05-18 - wheel mod for tread
+// parameterized version - though still messy
+// version03 - 2020-05-19 - add wheel detail
+// version04 - 2020-05-20 - handle support trigonometry
+
+// VARIABLE SECTION
+sz=2; // controlling scale variable (2 is best for me)
+detail=1; // much quicker render if "off"
+display=0; // zero for print - 1 for mockup
+$fn=40;
+hhw=sz*10; // half handle width
+hl=sz*45; // handle length
+et=sz*4.4; // engine top offset
+ws=sz*5; // wheel size
+ang=40; // handle angle
+
+// MODULE SECTION
+module handle() {
+    translate([-hhw,0,sz])
+    rotate([-90,0,0])
+    cylinder(hl,sz,sz);
+    translate([hhw,0,sz])
+    rotate([-90,0,0])
+    cylinder(hl,sz,sz);
+    // curve-right
+    translate([hhw-sz*2,hl,0])
+    bend();
+    // curve-left
+    translate([-hhw+sz*2,hl,0])
+    mirror([1,0,0]){bend();}
+    // crosspiece at end
+    translate([-hhw+sz*2,hl+sz*2,sz])
+    rotate([0,90,0])
+    cylinder(hhw*2-sz*4,sz,sz);
+    // handle stiffener
+    translate([-hhw,hl*.75,0])
+    cube([hhw*2,hl*.1,sz*2]);
+    // power lever
+    translate([-hhw+sz*3,hl*.77,sz])
+    rotate([0,30,90])
+    power();
+    }
+    
+// makes handle bends
+module bend(){ 
+  intersection(){
+    cube([sz*3,sz*3,sz*3]);
+      translate([0,0,sz])
+rotate_extrude(convexity = 10)
+translate([sz*2, 0, 0])
+circle(r = sz);
+   }
+}
+
+// ENGINE SPEED LEVER
+module power(){
+    // power lever in low position
+    hull(){
+        cube([sz*2,sz*2,sz*.2]);
+        translate([0,0,hhw*.4])
+        cube([hhw*.1,hhw*.1,hhw*.1]);
+    }
+    // knob
+    translate([sz*.5,sz*.5,sz*5])
+    sphere(sz);
+    }
+    
+module cowling() {
+   rotate_extrude(convexity = 10)
+translate([hhw, 0,0])
+circle(r = hhw*.3);
+hull(){rotate_extrude(convexity = 10)
+translate([hhw*.8, 0,0])
+circle(r = hhw*.2);
+
+}
+            // front axle assembly
+    translate([-hhw*1.25,-hhw-sz,-sz])
+    axle();
+    // rear axle assembly
+    translate([-hhw*1.25,hhw+sz,-sz])
+    axle();
+}
+    // axle assembly includes cowling elements
+    module axle() {
+//        translate([-hhw+sz*5,sz,-sz])
+//        rotate([0,90,0])
+//        cylinder(hhw*3+sz*5,sz,sz); // axle proper
+        translate([-hhw*.5,0,-sz])
+        rotate([0,90,0])
+        cylinder(hhw*3+sz*5,sz,sz); // axle proper
+        difference(){
+        translate([0,sz*.25,0])
+        rotate([0,90,0])
+        cylinder(hhw*2.5,sz*3,sz*3);
+        translate([-sz*.10,-sz*3.1,-sz*5.2])
+        cube([hhw*3,sz*6.5,sz*3.2]);
+    }
+    }
+
+module engine(){
+    // top curve
+    hull() {
+        translate([-et,-et,sz*8])
+        sphere(sz);
+        translate([et,-et,sz*8])
+        sphere(sz);
+        translate([et,et,sz*8])
+        sphere(sz);
+        translate([-et,et,sz*8])
+        sphere(sz);
+        translate([-sz*6,-sz*6,sz*3.9])
+        cube([sz*12,sz*12,sz]);
+    }   
+    // engine shaft
+    cylinder(sz*10,sz*3,sz*3);
+    // gas cap
+    translate([et*.8,et*.8,sz*8])
+    cylinder(sz*2,sz,sz);
+ adj=sz*4.1;   
+    // engine overhang fix
+    // remove four cylinders from a cube
+    // forming a gradual transition
+    // to reduce filament sag
+    difference(){
+translate([-sz*6,-sz*6,0])
+cube([sz*12,sz*12,sz*4]);
+// near
+translate([-sz*6.5,-sz*6.5,-sz*.5])
+rotate([0,90,0])
+    scale([1,1.1,1]) cylinder(sz*13,adj,adj);
+//far
+translate([-sz*6.5,sz*6.5,-sz*.5])
+rotate([0,90,0])
+    scale([1,1.1,1]) cylinder(sz*13,adj,adj);
+// left
+translate([-sz*6.5,-sz*6.5,-sz*.5])
+rotate([-90,0,0])
+    scale([1.1,1,1]) cylinder(sz*13,adj,adj);
+// right
+translate([sz*6.5,-sz*6.5,-sz*.5])
+rotate([-90,0,0])
+     scale([1.1,1,1]) cylinder(sz*13,adj,adj);
+}
+}
+ // ring module for wheel detail
+    module ring(){
+           rotate_extrude(convexity = 10)
+translate([ws*.55, 0,0])
+circle(r = ws*.13);
+    }
+module wheel(){
+      difference(){
+      cylinder(ws*.6,ws,ws);
+          translate([0,0,-.1])
+        cylinder(ws*.65,ws*.26,ws*.26);
+          translate([0,0,-.1])          
+          cylinder(ws*.15,ws*.5,ws*.05);
+          for (k=[0:24:359]){
+          translate([sin(k)*sz*5,cos(k)*sz*5,-.1])
+          cylinder(ws,ws*.1,ws*.1);
+          translate([0,0,ws*.6])
+     if(detail==1)     ring();  // slow preview and full render
+          }
+      }  
+    }
+
+// EXECUTE SECTION
+    difference(){
+    translate([0,0,sz*3])
+   cowling();
+        // remove inside of cowling
+        translate([0,0,-.01])
+        cylinder(sz*3,hhw,hhw);
+    }
+   // handle angle (support automated
+
+   translate([0,hhw,1])
+    rotate([ang,0,0])
+    handle();
+    // calculated support for handle
+    
+    if (display==0){
+    hull(){
+        // top of calculated handle support
+        // cosine is the "horizontal" offset - Y value
+        // cos(ang)*hl*.75+hhw - shifts away from cowling
+        // hhw is the fundamental handle shift so it fits
+        // without hhw, the handle would stick up at an angle from
+        // the middle of the mower engine
+        // sine is the "vertical" offset - Z value
+        // sin(ang)*hl*.75 - shifts up to the handle stiffener
+    translate([-hhw*.8,cos(ang)*(hl)*.75+hhw,sin(ang)*hl*.75])
+       cube([hhw*1.6,.5,2]);
+      // bottom of support
+      // offset needed only for the horizontal Y value
+    translate([-hhw*.8,cos(ang)*(hl)*.75+hhw-1,0])
+       cube([hhw*1.6,2,2]);
+    }
+     //broader base for the support to avoid wobble
+    translate([-hhw*.8,cos(ang)*(hl)*.75+hhw-4,0])
+       cube([hhw*1.6,7,2]);    
+}
+    //engine
+    translate([0,0,sz*3.1])
+    engine();
+    // blade shaft
+    cylinder(sz*4,sz,sz);
+
+// show wheels in place
+    if(display==1){
+// left front wheel
+        translate([-hhw-sz*3,-hhw-sz,sz])
+    rotate([0,-90,0])
+    wheel();
+// right front wheel
+        translate([hhw+sz*3,-hhw-sz,sz])
+    rotate([0,90,0])
+    wheel();
+// left rear wheel
+        translate([-hhw-sz*3,hhw+sz,sz])
+    rotate([0,-90,0])
+    wheel();
+// right rear wheel
+    translate([hhw+sz*3,hhw+sz,sz])
+    rotate([0,90,0])
+    wheel();
+        }
+    
+    else
+        // use printable wheel layout
+    for(i=[0:1:3]){
+        translate([-sz*25,i*sz*11,0])
+        wheel();
+    }

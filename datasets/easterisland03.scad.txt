@@ -1,0 +1,124 @@
+// Easter Island Head
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-02-02 - all varable controlled
+// version01 - 2018-02-02 - added rounded head crown
+// version02 - 2018-02-03 - split into two lips
+// version03 - 2018-02-05 - fixed calculation of split lip
+// so polygon values were related to ht variable
+$fn=30;
+ht=75;
+// shoulders and neck
+difference(){
+hull(){
+cylinder(ht*.2,ht*.22,ht*.2);
+    translate([0,ht*.050,ht*.3])
+sphere(ht*.15);
+translate([0,-ht*.050,ht*.3])
+sphere(ht*.15);
+
+}
+// remove some of base (easier removal from print plate)
+sphere(ht*.17);
+}
+    // arms
+    hull(){
+        translate([-ht*.15,ht*.05,ht*.25])
+        sphere(ht*.07);
+        
+        translate([-ht*.2,ht*.01,0])
+        //sphere(ht*.05);
+        cylinder(1,ht*.05,ht*.05);
+            }
+    hull(){
+        translate([ht*.15,ht*.05,ht*.25])
+        sphere(ht*.07);
+
+        translate([ht*.2,ht*.01,0])
+        cylinder(1,ht*.05,ht*.05);
+    }
+difference(){
+hull(){
+// chin
+translate([0,-ht*.1,ht*.4])
+rotate([30,0,0])
+cylinder(ht*.1,ht*.2,ht*.05);
+    // face
+        translate([0,0,ht*.3])
+    cylinder(ht*.1,ht*.2,ht*.15);
+    translate([0,0,ht*.9])
+    cylinder(ht*.1,ht*.15,ht*.15);
+}
+translate([0,-ht*.17,ht*.87])
+scale([2,.5,.4])
+sphere(ht*.1);
+}
+//// crown of head
+//hull(){
+//translate([0,0,ht])
+//rotate_extrude(convexity = 10)
+//translate([ht*.13, 0, 0])
+//circle(r = 1.5);
+//}
+// brow
+hull(){
+    // repeats head top
+    translate([0,0,ht*.9]) 
+    cylinder(ht*.1,ht*.15,ht*.15);
+    // crown
+    translate([0,0,ht])
+rotate_extrude(convexity = 10)
+translate([ht*.13, 0, 0])
+circle(r = 1.5);
+    // brow proper
+    translate([0,-ht*.05,ht*.9]) 
+    cylinder(ht*.1,ht*.16,ht*.14);
+}
+// nose
+hull(){
+    translate([0,-ht*.15,ht*.9])
+    sphere(ht*.025);
+    translate([0,-ht*.23,ht*.55])
+    scale([.7,1,.5])
+    sphere(ht*.1);
+}
+    translate([-ht*.03,-ht*.2,ht*.55])
+    scale([.7,1,.5])
+    sphere(ht*.1);
+        translate([ht*.03,-ht*.2,ht*.55])
+    scale([.7,1,.5])
+    sphere(ht*.1);
+
+// mouth
+difference(){
+translate([0,-ht*.17,ht*.47])
+scale([1.3,1,.35])
+sphere(ht*.1);
+    scale([1.55,1.4,1])
+translate([0,-ht*.107,ht*.47]){
+rotate_extrude(convexity=10)
+translate([ht*.1,0,0])
+//circle(r=1);
+    // version02b revised lip split
+rotate([0,0,270])
+    polygon(points=[[-ht*.02,-ht*.01],[ht*.02,-ht*.01],[0,-ht*.02]],paths=[[0,1,2,0]]);
+    }}
+
+// ears
+translate([-ht*.2,0,ht*.75])
+rotate([0,90,0])
+scale([1,.8,1])
+cylinder(ht*.4,ht*.1,ht*.1);
+
+
+//// chin print support
+//// was able to print without support for 50mm height
+//translate([-ht*.267/2,-ht*.29,0])
+//rotate([90,0,90])
+//linear_extrude(20)
+//polygon(points=[[0,0],[3,0],[2,ht*.32]],paths=[[0,1,2,0]]);

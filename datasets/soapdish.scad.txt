@@ -1,0 +1,69 @@
+// Soap Dish - Toothbrush Combo
+// 2022-11-01
+// Rotate 45 degrees to fit Lulzbot Mini
+
+// LICENSE SECTION
+// Copyright Algot Runeman, 2022
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// COMPILE-TIME CONSTANTS 
+
+thk=3; // controls all print thicknesses
+tall=20; // soap dish height
+wide=71; // soap dish width
+long=95; // dish length - interior is 2*thk smaller
+tube=long*.75; // height of toothbrush tubes
+tubein=13; // half of tube diameter
+tubeout=tubein+thk; 
+
+// PARAMETRIC EXECUTION CODE
+
+// soap dish
+    module box() {
+cube([long,wide,thk]);  //bottom
+cube([long,thk,tall]);  //near side
+translate([0,wide-thk,0])
+cube([long,thk,tall]);  //far side
+cube([thk,wide,tall]);  //near end
+translate([long-thk,0,0])
+cube([thk,wide,tall]);  //far end
+    }
+difference(){
+    box();
+    // create curved cutouts in sides for grabbing soap
+    translate([-1,wide*.5, tall])
+    rotate([0,90,0])
+    scale([1,2,1])
+    cylinder(long+thk,tall*.5,tall*.5);
+    translate([long*.5,-.1, tall])
+    rotate([0,90,90])
+    scale([1,4,1])
+    cylinder(long+thk,tall*.5,tall*.5);
+}
+// ribs in dish to keep soap drier
+for(i=[15:15:wide-10]){
+    hull(){
+    translate([10,i,thk])
+    sphere(thk);
+    translate([long-10,i,thk])
+    sphere(thk);
+    }}
+
+// brush holder left
+translate([-tubeout+thk,wide-tubeout+thk*3,0]){
+difference(){
+cylinder(tube,tubeout,tubeout);
+    translate([0,0,-.1])
+    cylinder(tube+thk,tubein,tubein);
+}}
+// brush holder right
+translate([long+tubeout-thk,wide-tubeout+thk*3,0]){
+difference(){
+cylinder(tube,tubeout,tubeout);
+    translate([0,0,-.1])
+    cylinder(tube+thk,tubein,tubein);
+}}

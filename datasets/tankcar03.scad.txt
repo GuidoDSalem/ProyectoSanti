@@ -1,0 +1,154 @@
+// Tanker Car
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-01-18
+// version01 - 2018-01-26 - modify ladder and tank
+// version02 - 2018-01-27 - mostly parameterized except for ladder
+// version03 - 2018-01-17 - complete ladder rewrite
+
+// VARIABLES
+
+$fn=30;
+$vpt=[0,0,0];
+$vpd=400;
+carwid=60;
+carlen=140;
+offsetx=10;
+
+// MODULES
+module container(){
+    //bottom slab to support ladder
+    cube([carwid,carlen,2]);
+  
+    difference(){
+        // outer tube
+    translate([carwid*.5,10,carwid*.5+2])
+    rotate([-90,0,0])
+    cylinder(carlen-20,carwid*.5-2,carwid*.5-2);
+        // inner tube
+    translate([carwid*.5,10,carwid*.5+2])
+    rotate([-90,0,0])
+    cylinder(carlen-18,carwid*.5-4,carwid*.5-4);
+    }
+// near end of container
+difference(){
+translate([carwid*.5,10,carwid*.5+2])
+    scale([5.5,2,5.6])
+    sphere(carwid*.084);
+    translate([carwid*.5,12,carwid*.5+2])
+    scale([5.4,1.8,5.4])
+    sphere(carwid*.084);
+}
+// far end of container
+    difference(){
+    translate([carwid*.5,carlen-10,carwid*.5+2])
+    scale([5.5,2,5.6])
+    sphere(carwid*.084);
+        translate([carwid*.5,carlen-12,carwid*.5+2])
+        scale([5.4,1.8,5.5])
+        sphere(carwid*.084);
+    }
+// supports for tank
+translate([offsetx,carlen*.1,2])
+    cube([carwid*.667,carwid*.25,carwid*.25]);
+translate([offsetx,carlen*.5-7.5,2])
+    cube([carwid*.667,carwid*.25,carwid*.25]);
+translate([offsetx,carlen*.8,2])
+    cube([carwid*.667,carwid*.25,carwid*.25]);
+
+// top cap
+    translate([carwid*.5,carlen*.5,carwid-5])
+    cylinder(carwid*.2,carwid*.167,carwid*.167);            
+    translate([carwid*.5,carlen*.5,carwid+7])
+    scale([1,1,.5])
+    sphere(carwid*.167);
+    } // end container module
+
+    module ladder(){
+        translate([0,1,0])
+        cylinder(50,2,2);
+        translate([0,20,0])
+        cylinder(50,2,2);
+        for(k=[10:10:50]){
+        translate([-1,1,k])
+        cube([2,18,1.5]);
+            translate([3,0,60])
+            cube([2,18,1.5]);
+        // curved section right
+        translate([15,1,50])
+        rotate([90,-75,0])
+        intersection(){
+        translate([-6,-6,-3])
+        cube([23,23,6]);
+        rotate_extrude(convexity = 10)
+        translate([15, 0, 0])
+        circle(r = 2);
+    }
+        // curved section left
+        translate([15,20,50])
+        rotate([90,-75,0])
+        intersection(){
+        translate([-6,-6,-3])
+        cube([23,23,6]);
+        rotate_extrude(convexity = 10)
+        translate([15, 0, 0])
+        circle(r = 2);
+    }    
+        translate([23,1,57])
+    cylinder(7,2,2);
+
+        translate([23,20,57])
+    cylinder(7,2,2);
+}
+}
+
+//  EXECUTION SECTION
+    container();
+
+    // nearside ladder
+    translate([2,carlen*.5-10,0])
+    ladder();
+
+    // farside ladder
+    translate([carwid-2,carlen*.5+10,0])
+    rotate([0,0,180])
+    ladder();
+
+ 
+////////////////////////////////////
+// FLATCAR MOCKUP
+// REMOVE FOR PRINT  
+// /////////////////////////////////
+ module trucks(){
+      module truck(){
+translate([10,15,-15])
+cube([30,30,15]);
+translate ([13,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,14,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([13,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+translate ([36,48,-11])
+rotate([90,0,0])
+cylinder(2,10,10);
+}
+translate([-5,0,0])
+truck();
+translate([100,0,0])
+truck();  
+translate([0,0,-2])
+cube([145,60,2]);
+}
+//translate([60,0,0])
+//rotate([0,0,90])
+//trucks();

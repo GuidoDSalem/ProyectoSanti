@@ -1,0 +1,267 @@
+// Frog
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version04 2018-05-20 - bigger thigh, smaller shin, flatter ears, narrower butt
+// version03 2017-06-22 - thicken lips ~2min render
+// version02 2017-06-21 - thickened head and neck
+// version01 2017-06-20 - changed head and belly
+// version00 2017-06-20 - start with the feet
+
+// VARIABLES
+    $fn=30;
+
+
+//MODULES
+module toe(){
+hull(){
+cylinder(2,3,1.5);
+translate([0,0,2])
+resize(newsize=[5,4,2])
+sphere(2);
+
+translate([4,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+}
+hull(){
+translate([4,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+
+translate([12,0,1])
+resize(newsize=[3,3,2])
+sphere(2);
+}
+}
+
+module web(){
+    hull(){
+    translate([0,0,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    //right
+    translate([3,5,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    //left
+    translate([3,-5,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    translate([12,0,1])
+    resize(newsize=[3,3,2])
+    sphere(2);
+    }
+}
+module foot(){
+translate([-5,0,0])
+toe(); //center
+hull(){
+translate([-2,0,2])
+    sphere(1);
+translate([12,0,1])
+sphere(1);    
+}
+web();
+translate([0,8,0])
+rotate([0,0,-36])
+toe(); //right
+translate([0,-8,0])
+rotate([0,0,36])
+toe(); //left
+}
+
+// rear leg module
+module legr(){
+    // hand
+    hull(){
+    translate([17.5,0,0])
+     sphere(3);
+     translate([-5,0,0])
+        sphere(1);
+    }
+    // shin 
+    hull(){
+    translate([17.5,0,0])
+    sphere(3);
+    translate([5,0,6])
+    sphere(4);
+    translate([-10,0,12.5])
+    sphere(3);
+    }
+    // thigh
+    hull(){
+    translate([-10,0,12.5])
+    sphere(3);
+    translate([8,0,12])
+
+    sphere(8);
+    translate([18,0,7])
+        sphere(4);
+    }
+}
+
+module body(){
+    hull(){
+    translate([65,11,10])
+    scale([1,1.5,1]){sphere(5);}
+    translate([38,11,15])
+    rotate([0,55,0])
+    scale([1,1.9,1.5]){sphere(10);}
+    // back
+   // translate([45,20,25])
+    //resize(newsize=[3,4,4])
+    //sphere(2);
+    translate([47,11,26])
+    resize(newsize=[3,8,8])
+    sphere(2);
+    
+    //belly
+    translate([32,11,7])
+    resize(newsize=[20,20,5])
+    sphere(2);
+    // shoulders
+    translate([9,11,24])
+    scale([1,2.5,1]){sphere(4);}
+}
+}
+
+module head(){
+    hull(){
+     // nose
+        // lips
+            translate([-8,11,24])
+    resize(newsize=[8,12,4])
+    cylinder(2,2,2);
+    //face tip itself
+    translate([-6,11,28])
+    resize(newsize=[8,12,4])
+    sphere(2);
+        // thicken top
+        translate([0,11,29])
+        sphere(3);
+        translate([5,11,31])
+        sphere(3);
+        // back of head on sides
+    translate([14,11,25])
+    resize(newsize=[8,20,6])
+    sphere(2);
+        // back-top of head
+        translate([17,11,26])
+        sphere(3);
+    // left cheek
+    translate([15,1,20])
+    resize(newsize=[3,2,4])
+    sphere(2);
+            // right cheek
+    translate([15,22,20])
+    resize(newsize=[3,2,4])
+    sphere(2); 
+    // neck
+    translate([20,11,13])
+    resize(newsize=[3,5,9])
+    sphere(2); 
+    translate([-2,11,18])
+    rotate([0,20,0])
+    resize(newsize=[6,10,3])
+    sphere(2);
+    }
+    // left ear
+    translate([8,5,27])
+    rotate([50,0,-5])
+    cylinder(2,4,4);
+    // right ear
+    translate([8,19,28])
+    rotate([130,0,5])
+    cylinder(2,4,4);
+   // left eye
+    difference(){
+    hull(){
+    translate([0,4,28])
+    rotate([0,0,-22])
+    resize(newsize=[8,4,8])
+    sphere(2);
+    translate([0,10,26])
+    rotate([0,0,-15])
+    resize(newsize=[6,2,6])
+    sphere(2);        
+    }
+        translate([0,2,27.6])     resize(newsize=[5,2,3]) sphere(2);}
+   // right eye
+    difference(){
+    hull(){
+    translate([0,18,28])
+    rotate([0,0,22])
+    resize(newsize=[8,4,8])
+    sphere(2);
+    translate([0,12,26])
+    rotate([0,0,15])
+    resize(newsize=[6,2,6])
+    sphere(2);        
+    }
+    translate([-1,20,27.6])     resize(newsize=[7,2,3]) sphere(2);}
+}
+head();
+// EXECUTE CODE
+
+// feet
+// left front
+translate([0,-5,0])
+foot();
+// right front
+translate([0,25,0])
+foot();
+// right rear
+translate([40,29,0])
+rotate([0,0,-15])
+scale([1.7,1.2,1]){
+foot();}
+// left rear
+translate([40,-7,0])
+rotate([0,0,15])
+scale([1.7,1.2,1]){
+foot();}
+
+// left rear leg
+translate([43,-7,3])
+rotate([0,0,10])
+legr();
+// right rear leg
+translate([43,28,3])
+rotate([0,0,-10])
+legr();
+
+body();
+
+// legf
+//left
+hull(){
+translate([11,-5,0])
+cylinder(2,2,2);
+    translate([15,-10,10])
+    sphere(3);
+}
+    hull(){
+    translate([15,-10,10])
+    sphere(3);
+    translate([18,0,16])
+        sphere(5);
+    }
+//right
+hull(){
+translate([11,25,0])
+cylinder(2,2,2);
+    translate([15,30,10])
+    sphere(3);
+}
+    hull(){
+    translate([15,30,10])
+    sphere(3);
+    translate([18,20,16])
+        sphere(5);
+    }

@@ -1,0 +1,113 @@
+// Baby Bird
+// version00 - 2017-08-26
+// version01 - 2017-08-26 remove base material
+// version02 - 2017-08-27 - smaller body at back. raise and thicken neck
+
+// VARIABLES
+$fn=60;
+
+// EXECUTE CODE
+//body
+
+difference(){
+hull(){
+  translate([0,0,10])
+ sphere(20);
+ translate([20,0,5])
+    sphere(9);
+}
+// reduce base
+translate([-20,-20,-20])
+cube([80,80,20]);
+translate([0,0,-.10])
+cylinder(3,15,10);
+translate([15,0,-.10])
+cylinder(3,10,6);
+}
+
+//tail
+difference(){
+hull(){
+translate([40,5,1])
+sphere(1);
+translate([15,0,0])
+cylinder(13,6,6);
+
+translate([40,-5,1])
+sphere(1);
+translate([15,0,0])
+cylinder(13,6,6);
+}
+// reduce base contact
+translate([8,0,0])
+rotate([0,90,0])
+cylinder(35,5,2);
+}
+//head
+hull(){
+translate([-22,0,26])
+sphere(10);
+translate([-6,0,17])
+    sphere(14);
+}
+//beak
+hull(){
+translate([-34,0,33])
+sphere(1);
+    translate([-20,0,20])
+    cylinder(5,8,5);
+}
+hull(){
+    translate([-35,0,30])
+    sphere(1);
+    translate([-20,0,20])
+    cylinder (5,5,8);
+}
+
+//eyes
+translate([-28,5,31])
+sphere(2);
+translate([-28,-5,31])
+sphere(2);
+
+//wings
+// left/front
+hull(){
+    translate([15,-25,2])
+    sphere(2);
+    translate([-5,-16,21])
+    sphere(2);
+        translate([-5,-17,2])
+    sphere(2);
+    translate([-5,-18,10])
+    scale([1,1,5]){
+        rotate([0,0,0])
+        cylinder(2,2,2);
+    }
+        
+}
+// right/back
+hull(){
+        translate([15,25,2])
+    sphere(2);
+    translate([-5,16,21])
+    sphere(2);
+        translate([-5,17,2])
+    sphere(2);
+    translate([-5,18,10])
+    scale([1,1,5]){
+        rotate([0,0,0])
+        cylinder(2,2,2);
+    }
+//    
+//    translate([15,25,2])
+//    sphere(2);
+//    translate([-5,17,15])
+//    sphere(2);
+//        translate([-5,17,2])
+//    sphere(2);
+//}    translate([-5,18,10])
+//    scale([1,1,5]){
+//        rotate([0,0,0])
+//        cylinder(2,2,2);
+    }

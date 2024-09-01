@@ -1,0 +1,60 @@
+/////////////////////////////////////////////
+//     FEDIVERSE "DOLLAR"    //
+////////////////////////////////////////////
+
+// version00 - 2020-04-15
+// not for use in paying US taxes!
+// not even sure this has any value to anyone
+
+// Copyright Algot Runeman, 2020
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+$fn=30;
+rad=20;
+thk=2;
+
+// SEPARATE FILE - SAME FOLDER//
+use<fedilogo.scad>
+
+// MAIN COIN
+difference(){
+    cylinder(thk,rad,rad);
+    translate([1,0,-.1])
+    scale([1.7,1.7,.75])
+    logo(); // FROM FEDILOGO FILE
+    // SMALLER CYLINDER FOR TEXT REVEAL
+    translate([0,0,thk*.5])
+    cylinder(thk,rad-1,rad-1);
+    // BOTTOM DOT CIRCLE
+    for(k=[0:15:360]){
+    translate([sin(k)*rad*.88,cos(k)*rad*.88,-.1])
+    cylinder(thk/2,.6,.6);
+    }
+}
+for(k=[0:15:360]){
+    translate([sin(k)*rad*.88,cos(k)*rad*.88,thk*.5])
+    cylinder(thk*.5,.6,.6);
+    }
+// TEXT IS THE INCLUDED DEFAULT FONT
+// LIBERATION SANS
+// TEXT (TOP LINE)
+translate([0,rad/2,thk*.49])
+linear_extrude(thk/2,convexity=10)
+text(size=5,halign="center", valign="center","ONE");
+// TEXT (CENTER LINE)
+translate([0,0,thk*.49])
+linear_extrude(thk/2,convexity=10)
+text(size=5,halign="center", valign="center","FEDIBUCK");
+// TEXT (LARGE BOTTOM LINE0
+translate([0,-rad/2,thk*.49])
+linear_extrude(thk/2,convexity=10)
+text(size=10,halign="center", valign="center","$1");
+
+    
+
+
+    

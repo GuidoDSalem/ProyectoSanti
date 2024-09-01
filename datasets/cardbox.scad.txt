@@ -1,0 +1,86 @@
+// "Cards" Box
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version04 - 2017-02-11 - modified from jewel box
+// box version03 - 2017-02-08 - fixed dimesion along y axis and lettering
+// box version02 - 2017-02-08 - simplified rim
+// box version01 - 2017-02-08 - rim issues in scad
+
+// VARIABLE DECLARATIONS
+fnt=12; // may need adjustment
+lenx=136; // card width+ times 2 with box side thickness deducted
+leny=96; // card length+ with box side thickness deducted
+ht=20; // good for a deck of cards
+thk=2; // minimum box thickness = 2mm
+
+// base with partition for two decks of cards
+// bottom - print separately on Lulzbot Mini
+cube([lenx,leny,thk]);
+
+// left side
+translate([0,0,0])
+cube([thk,leny,ht-thk]);
+// left rim
+translate([thk*.67,thk*.67,0])
+cube([.9,leny-thk-1,ht]);
+
+// right side
+translate([lenx-thk,0,0])
+cube([thk,leny,ht-thk]);
+// right rim
+translate([lenx-thk,thk,0])
+cube([.9,leny-thk-1,ht]);
+
+// near edge
+translate([0,0,0])
+cube([lenx,thk,ht-thk]);
+// near rim
+translate([thk*.67,thk*.67,0])
+cube([lenx-thk*1.5,1,ht]);
+
+// far edge
+translate([0,leny-thk,0])
+cube([lenx,thk,ht-thk]);
+translate([thk*.67,leny-thk,0])
+cube([lenx-thk*1.5,1,ht]);
+
+// middle partition along y axis)
+translate([lenx/2,leny-thk,0])
+rotate([90,0,0])
+cube([1,ht,leny-thk*2]);
+// -------------------------------------------------------------------
+
+// lid - print separately from box base to fit on Lulzbot Mini
+// lettering indented on bottom
+
+translate([0,leny+thk*4,0])
+difference(){
+    cube([lenx,leny,thk]);
+
+rotate([0,180,0])
+translate([-lenx/2+-thk,leny/2+thk,-1]) // inverted because of rotation
+    linear_extrude(height=thk/2){
+ text("RUNEMAN", direction="ltr", size=fnt,font="Academic M54", halign="center", valign="center");
+ }
+}
+// long sides
+// near side
+translate([0,leny+thk*4,0])
+cube([lenx,thk-1.1,thk*3]);
+// far side
+translate([0,leny*2+thk*4,0])
+cube([lenx,thk-1.1,thk*3]);
+// ends
+//left end
+translate([0,leny+thk*4,0])
+cube([thk-1.1,leny,thk*3]);
+// right end
+translate([lenx-1,leny+thk*4,0])
+cube([thk-1.1,leny,thk*3]);
+

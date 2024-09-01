@@ -1,0 +1,104 @@
+// Train Engine Mockup
+// early versions of each part "in place"
+// with added components for sizing to be printed separately
+// 
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// version00 - Initial preprint design
+
+$vpd=500;
+$vpr=[76,90,0];
+// roof
+difference(){
+scale([1,2,1])
+cylinder(50,10,10);
+    translate([-3,0,2])
+    scale([1.2,2.1,1])
+    cylinder(50,10,10);
+}
+translate([-40,-20,0])
+cube([40,40,2]);
+
+// left side
+difference(){
+translate([-40,17,0])
+cube([44,2,40]);
+    translate([-10,18,10])
+    cube([10,3,10]);
+    translate([-10,18,22])
+    cube([10,3,10]);  
+}
+
+// right side
+difference(){
+translate([-40,-19,0])
+cube([44,2,40]);
+    translate([-10,-21,10])
+    cube([10,3,10]);
+    translate([-10,-21,22])
+    cube([10,3,10]);   
+}
+
+// cabin deck
+translate([-40,-30,0])
+cube([2,60,60]);
+
+// truck under cabin
+translate([-65,-15,0])
+cube([25,30,40]);
+// cabin wheels
+translate([-60,20,33])
+rotate([90,0,0])
+cylinder(5,10,10);
+
+translate([-60,20,10])
+rotate([90,0,0])
+cylinder(5,10,10);
+
+translate([-60,-15,33])
+rotate([90,0,0])
+cylinder(5,10,10);
+
+translate([-60,-15,10])
+rotate([90,0,0])
+cylinder(5,10,10);
+
+
+// boiler tube
+translate([-15,0,-80])
+cylinder(80,20,20);
+
+// boiler deck
+
+translate([-25,-30,-80])
+cube([2,60,80]);
+
+// drive truck
+translate([-60,-15,-80])
+cube([30,30,80]);
+
+// drive wheel
+translate([-50,20,-20])
+rotate([90,0,0])
+cylinder(5,20,20);
+
+translate([-50,20,-64])
+rotate([90,0,0])
+cylinder(5,20,20);
+
+translate([-50,-15,-20])
+rotate([90,0,0])
+cylinder(5,20,20);
+
+translate([-50,-15,-64])
+rotate([90,0,0])
+cylinder(5,20,20);
+
+// cattleguard
+translate([-50,-5,-90])
+cube([10,10,10]);
+

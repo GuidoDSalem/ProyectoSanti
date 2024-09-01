@@ -1,0 +1,128 @@
+// Figurine - Female
+
+// Copyright Algot Runeman, 2017
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version 02
+// 2017-01-23
+// Algot Runeman
+// 94mm tall - 1hr 20min to print
+
+// z-scale variables
+base=2;
+calfa=6;
+calfb=6;
+thigha=8;
+thighb=9;
+hipht=10;
+thoraxht=16;
+
+// x-scale variables
+shift=12;
+hip=-5;
+hip2=shift + 2*(-hip);
+
+// leg #1
+translate([shift-shift,0,0])
+{ 
+cylinder(base,6,6);
+
+translate([0,0,base])
+cylinder(calfa,4,5);
+
+translate([0,0,base+calfa])
+cylinder(calfb,5,4);
+
+translate([0,0,base+calfa+calfb])
+cylinder(thigha,4,6);
+
+translate([0,0,base+calfa+calfb+thigha])
+cylinder(thighb,6,5);
+}  
+
+// leg #2
+
+translate([shift,0,0])
+{
+
+cylinder(base,6,6);
+
+translate([0,0,base])
+cylinder(calfa,4,5);
+
+translate([0,0,base+calfa])
+cylinder(calfb,5,4);
+
+translate([0,0,base+calfa+calfb])
+cylinder(thigha,4,6);
+
+translate([0,0,base+calfa+calfb+thigha])
+cylinder(thighb,6,5);
+
+}
+
+// hips
+
+translate ([hip,hip,base+calfa+calfb+thigha+thighb])
+{ 
+   cube([22,10,hipht],center=false);
+    translate([5.5,2,4])
+   sphere(6);
+    translate([16.5,2,4])
+    sphere(6);
+}
+
+// thorax
+hull()
+{
+translate ([1,hip+5,base+calfa+calfb+thigha+thighb+hipht])
+cylinder(thigha+thighb,6,8);
+translate ([hip-3.2*hip,hip+5,base+calfa+calfb+thigha+thighb+hipht])
+cylinder(thigha+thighb,6,8);
+}
+
+// shoulders
+hull(){
+translate([shift-shift+.5,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+cylinder(5,8,6);
+translate ([hip-3.2*hip,hip+5,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+cylinder(5,8,6);
+    
+   
+}
+// neck
+translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5])
+ cylinder(5,5,5);
+// translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5+5])
+// cylinder(5,6,8);
+
+// head
+translate([shift/2,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht+5+8]) // embed bottom of head sphere
+sphere(8);
+
+// left arm
+translate([-shift/2,0,base+calfa+calfb+thigha+thighb])
+cylinder(28,3,5);
+translate([-shift/2,0,base+calfa+calfb+thigha+thighb])
+sphere(3);
+translate([shift/2-12,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+sphere(5);
+
+// right arm
+translate([18,0,base+calfa+calfb+thigha+thighb])
+cylinder(28,3,5);
+translate([18,0,base+calfa+calfb+thigha+thighb])
+sphere(3);
+translate([18,0,base+calfa+calfb+thigha+thighb+hipht+thoraxht])
+sphere(5);
+
+// breasts
+
+translate([2,6,base+calfa+calfb+thigha+thighb+hipht+thoraxht-3])
+sphere(5);
+translate([10,6,base+calfa+calfb+thigha+thighb+hipht+thoraxht-3])
+sphere(5);

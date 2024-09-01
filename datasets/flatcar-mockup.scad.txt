@@ -1,0 +1,59 @@
+//----------------------------
+// FLATCAR MOCKUP
+// ADD THIS CODE TO A NEW CAR DESIGN
+// FLATCAR MOCKUP
+// REMOVE FOR PRINT  
+// BECAUSE IT IS BELOW THE PRINT SURFACE
+//-----------------------------
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// VARIABLES
+carwid=60; // standard width of a train car
+carlen=145; // standard lenght of a car
+offsetx=0; // adjustments of location as needed
+offsety=0;
+
+// VIEWPORT SETTINGS
+// optional
+// convenient for capturing screem images
+// to illustrate notes
+$vpt=[35,10,25];
+$vpr=[80,0,360];
+$vpd=400;
+
+translate([offsetx,offsety,-2.0])
+cube([carlen,carwid,2]);
+
+// simulated trucks  
+ module trucks(){
+    module truck(){
+    translate([10,15,-17])    
+    cube([30,30,15]); 
+    translate ([13,14,-12])
+    rotate([90,0,0])
+    cylinder(2,10,10);
+    translate ([36,14,-12])
+    rotate([90,0,0])
+    cylinder(2,10,10);
+    translate ([13,48,-12])
+    rotate([90,0,0])
+    cylinder(2,10,10);
+    translate ([36,48,-12])
+    rotate([90,0,0])
+    cylinder(2,10,10);
+}
+translate([-7,0,0])
+truck();
+translate([carlen-42,0,0])
+truck();  
+}
+// can adjust position of mockup to match actual design of a car
+translate([0,0,0])
+rotate([0,0,0])
+trucks();

@@ -1,0 +1,63 @@
+// Garden Gnome Glasses 2021-03-11
+// v01 78 wide is a good fit for our garden gnome
+
+// GPL Statement
+
+// Copyright Algot Runeman, 2021
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// VARIABLES
+head= 75;
+wid=head+3; // head is 75mm wide - 85 was too big.
+ear=35;
+thk=2.5;
+
+// MODULES
+module stem(){
+hull(){
+//translate([-wid*.5,0,0])
+cube([thk,ear,thk*2]);
+translate([thk,-thk*2,0])
+cube ([.1,thk,thk*2]);
+}
+hull(){
+translate([0,ear+10,7])
+rotate([0,90,0])
+cylinder(thk,5,5);
+translate([0,ear,0])
+cube([thk,thk,thk*2]);
+}
+}
+
+module lens(){
+    translate([-wid*.3,-wid*.28,10])
+    rotate([80,80,-25]) // to fit along front of glasses
+    hull(){
+    translate([0,-thk,0])
+    cylinder(2,wid*.0650,wid*.0650);
+    translate([0,14,0])
+    cylinder(2,wid*.125,wid*.125);
+    }
+}
+
+// EXECUTION
+// forehead curve
+difference(){
+    scale([1,.75,1])
+    color ("red") cylinder(5,wid*.5,wid*.5);
+        translate([0,5,-.10])
+        scale([1,.75,1.1])
+        cylinder(6,wid*.5,wid*.5);
+}
+translate([-wid*.5,0,0])
+color ("red") stem();
+translate([wid*.5,0,0])
+mirror([1,0,0])
+color ("red") stem();
+color ("black") lens();
+mirror([1,0,0])
+color ("black") lens();

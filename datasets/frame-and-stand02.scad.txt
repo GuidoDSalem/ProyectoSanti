@@ -1,0 +1,86 @@
+// Captain's Mistress 
+// (AKA Connect 4 - a trademark of Hasbro)
+
+// Copyright Algot Runeman, 2019
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version02 diagonal
+wid=190; // 142 fits Lulzbot Mini horizontally 190 diag
+ht=wid*0.7042;
+// Lulzbot limit marker
+//translate([150,150,0])
+//cube([2,2,2]);
+// k loop value for horizontal
+// i loop value for vertical
+module frame(){
+// back grid
+difference(){
+cube([wid,ht,2]);
+    // loop converted to parameter variables for resizing
+    for(i=[ht*0.10:ht*0.16:ht]){
+for(k=[wid*0.0775:wid*0.1408:wid*0.95]){
+    translate([k,i,-1])
+cylinder(6,wid*0.0493,wid*0.0493);
+}}
+}
+// dividers
+// scaling issue in step value??
+for(k=[0:wid*0.1408:wid+1]){
+    translate([k,0,0])
+    cube([2,ht,6.5]);
+}
+// bottom closure
+cube([wid,2,6.5]);
+
+// front grid
+difference(){
+    translate([0,0,6.4])
+    cube([wid,ht,2]);
+    for(i=[ht*0.10:ht*0.16:ht]){
+for(k=[wid*0.0775:wid*0.1408:wid*0.95]){
+    translate([k,i,6])
+cylinder(6,wid*0.0493,wid*0.0493);
+}}
+}
+
+////////////////////////////////////////////////////////
+// blue disks for test of size/spacing
+module disks(){
+for(i=[ht*0.10:ht*0.16:ht]){
+for(k=[wid*0.0775:wid*0.1408:wid*0.95]){
+    translate([k,i,0])
+    color("blue",1) cylinder(3,wid*00.0563,wid*0.0563);
+}
+}
+}
+//translate([0,0,3])
+//disks();
+
+}
+translate([0,7,0])
+rotate([90,0,45])
+frame();
+
+// Stand is hard coded. Modify as needed to scale to fit the frame.
+module stand(){
+    // base
+    translate([-15,-20,0])
+    cube([40,32,2]);
+    // vertical back
+    translate([-3,-10,0])
+    cube([2,13,30]);
+    // sides
+    translate([-1,-10,0])
+    cube([5,2,30]);
+    translate([-1,1,0])
+    cube([5,2,30]);
+}
+// position stand pieces to fit with diagonal frame
+translate([20,75,0])
+stand();
+translate([70,30,0])
+stand();

@@ -1,0 +1,21 @@
+// Tape Cutter
+
+// The mail truck has a red and blue stripe with white between them and the truck itself is white.
+
+// I was able to find red and blue fabric tape (duct tape) at my local craft store (in addition to other colors).
+
+// 2 mm width for the red and blue stripes on a 
+// mailtruck at the 100mm length
+
+// I used a hobby knife (like X-ACTO in the grooves to slice the tape.
+// For other projects, set wid to the mm width you wish to use for slices of tape.
+// even if the tape factory edge isn't lined up precisely, the other individual interior slices will be 140mm lengths of tape which is the right width.
+
+wid=2;
+difference(){
+cube([100,140,5]);
+for(k=[2:wid+1:100]){
+    translate([k,-5,-.1])
+    cube([1,160,2]);
+}
+}

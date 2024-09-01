@@ -1,0 +1,46 @@
+// Valentine Heart
+
+// Copyright Algot Runeman, 2018
+//    This program is free software: you can redistribute it and/or modify  it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+//    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+//    You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+// version00 - 2018-02-11
+
+
+ht=50;
+
+// base
+difference(){
+sphere(ht*.33);
+    sphere(ht*.30);
+translate([-ht*.5,-ht*.5,-ht*.5])
+cube([ht,ht,ht*.5]);
+}
+
+// heart (two overlapping parts
+color("red",1.0)
+hull(){
+    translate([-1,-ht*.1,ht*.3])
+    cube([2,ht*.2,2]);
+    translate([-ht*.2,-ht*.1,ht*.75])
+    rotate([-90,0,0])
+    cylinder(ht*.2,ht*.25,ht*.25);
+}
+color("red",1.0)
+hull(){
+        translate([-1,-ht*.1,ht*.3])
+    cube([2,ht*.2,2]);
+        translate([ht*.2,-ht*.1,ht*.75])
+    rotate([-90,0,0])
+    cylinder(ht*.2,ht*.25,ht*.25);
+}
+// text 
+translate([0,-ht*.1,ht*.75])
+rotate([90,0,0])
+linear_extrude(2){
+
+text("2018", size=ht*.25,halign="center", valign="center");
+}
